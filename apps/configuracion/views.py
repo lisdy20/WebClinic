@@ -5,12 +5,8 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 # Create your views here.
-class UsuariosTemplateView(TemplateView):
-    template_name = 'usuarios.html'
-    def get(self, request):
-        return render(request=request, template_name=self.template_name)
+class InicioTemplateView(TemplateView):
+    template_name = 'index.html'
 
-class UsuariosListTemplateView(TemplateView):
-    template_name = 'usuarios_list.html'
     def get(self, request):
         return render(request=request, template_name=self.template_name)
