@@ -8,4 +8,4 @@ class TipoPagoAdmin(admin.ModelAdmin):
 
 @admin.register(ControlPago)
 class ControlPagoAdmin(admin.ModelAdmin):
-    list_display=['cita', 'tipopago']
+    list_display=['id','cantidadpago','cita', 'tipopago','descripcion','numref']

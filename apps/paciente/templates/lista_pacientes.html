@@ -1,0 +1,51 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Lista Pacientes | Clinica Jordán{% endblock title %}
+
+
+{% block content %}
+<center><h1 class="m-4">Pacientes</h1></center>
+<table class="table shadow">
+    <thead>
+      <tr>
+        
+        {% for campo in campos %}
+        <th scope="col">{{campo}}</th>
+        {% endfor %}
+            
+      </tr>
+    </thead>
+    <tbody>
+      
+      
+      {% if user.is_authenticated %}
+        
+        {% if not error %}
+        {% csrf_token %}
+            {% for cliente in page_obj %}
+            <tr>
+                <td>{{cliente.nombre}}</td>
+                <td>{{cliente.apellido}}</td>
+                <td>{{cliente.dpi}}</td>
+                <td>{{cliente.nit}}</td>
+                <td>{{cliente.direccion}}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <div class="card shadow p-3 m-3 bg-warning">
+                Aún no hay datos para mostrar...
+            </div>
+        {% endif %}
+            
+    </tbody>
+</table>
+{% include 'paginator.html' %}
+      {% else %}
+    </tbody>
+</table>
+      <div class="card shadow p-3 m-3 warning">
+        Para mostrar los datos debe iniciar sesión...
+      </div>
+      {% endif %}
+{% endblock content %}
+    

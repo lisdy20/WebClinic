@@ -12,6 +12,9 @@ class TipoPerfil(models.Model):
         verbose_name_plural = 'Tipo de perfiles'
         db_table = 'tipo_perfiles'
 
+    def __str__(self):
+        return f'{self.nombre} {self.descripcion}'
+
 class Perfil(AbstractUser):
     GENEROS_CHOICES = [
         ('M', 'Masculino'),
@@ -32,3 +35,6 @@ class Perfil(AbstractUser):
         verbose_name = 'Perfil'
         verbose_name_plural = 'Perfiles'
         db_table = 'perfiles'
+
+    def __str__(self):
+        return f'{self.nombre} {self.apellido}'

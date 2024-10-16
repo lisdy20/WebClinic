@@ -8,8 +8,8 @@ class TipoAntecedenteAdmin(admin.ModelAdmin):
 
 @admin.register(Paciente)
 class PacienteAdmin(admin.ModelAdmin):
-    list_display=['nombre', 'apellido', 'dpi', 'nit']
-    search_fields=['nombre', 'apellido', 'dpi', 'nit']
+    list_display=['nombre', 'apellido', 'dpi', 'nit','direccion']
+    search_fields=['nombre', 'apellido', 'dpi', 'nit','direccion']
     list_filter=['genero']
 
 @admin.register(Antecedente)

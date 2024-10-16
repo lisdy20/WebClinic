@@ -1,0 +1,55 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Lista Citas{% endblock title %}
+
+
+{% block content %}
+<center><h1 class="m-4">Citas</h1></center>
+<table class="table shadow">
+    <thead>
+      <tr>
+        
+        {% for campo in campos %}
+        <th scope="col">{{campo}}</th>
+        {% endfor %}
+            
+      </tr>
+    </thead>
+    <tbody>
+      
+      
+      {% if user.is_authenticated %}
+        
+        {% if not error %}
+        {% csrf_token %}
+            {% for cita in page_obj %}
+            <tr>
+                <td>{{cita.fecha}}</td>
+                <td>{{cita.paciente}}</td>
+                <td>{{cita.numaut}}</td>
+                <td>{{cita.numserie}}</td>
+                <td>{{cita.dte}}</td>
+                <td>{{cita.facturado}}</td>
+                <td>{{cita.estadocita}}</td>
+                <td>{{cita.totalpago}}</td>
+                <td>{{cita.totalpagado}}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <div class="card shadow p-3 m-3 bg-warning">
+                Aún no hay datos para mostrar...
+            </div>
+        {% endif %}
+            
+    </tbody>
+</table>
+{% include 'paginator.html' %}
+      {% else %}
+    </tbody>
+</table>
+      <div class="card shadow p-3 m-3 warning">
+        Para mostrar los datos debe iniciar sesión...
+      </div>
+      {% endif %}
+{% endblock content %}
+    

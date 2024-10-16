@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-GT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="{% static 'bootstrap-5.3.3-dist/css/bootstrap.min.css' %}">
+    <script src="{% static 'bootstrap-5.3.3-dist/js/bootstrap.bundle.min.js' %}"></script>
+    {% block head %}{% endblock head %}
+    <title>{% block title %}{% endblock title %}</title>
+</head>
+<body>
+    <style>
+        a{
+            color: #343a40;
+            text-decoration: none;
+        }
+        .accordion-body {
+          max-width: 250px; /* Establece la altura máxima deseada */
+          overflow-y: auto;  /* Activa el scroll vertical si el contenido excede el tamaño */
+        }
+        .accordion {
+            width: 250px; /* Ajusta este valor según el ancho deseado */
+            margin: 0 auto; /* Centra el acordeón */
+        }
+        #sidebar {
+        width: 250px;
+        top: 56px; /* Ajustar según la altura de tu navbar */
+        height: 100%;
+        z-index: 1000;
+    }
+    main {
+        margin-left: 250px; /* Desplaza el contenido principal hacia la derecha */
+        padding: 20px; /* Espaciado interno para que el contenido no esté pegado a los bordes */
+    }
+    </style>
+    {% block style %}{% endblock style %}
+    <header>
+        <nav class="navbar navbar-light bg-light sticky-top">
+            <div class="container-fluid">
+                <a class="navbar-brand d-flex align-items-center" href="/">
+                    <img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
+                    <span class="ms-2">WebClinic</span>
+                </a>
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </nav>
+        
+        <!-- Barra lateral en pantallas grandes -->
+        <section id="sidebar" class="bg-light d-none d-lg-block position-fixed p-3">
+            <h5>Catálogo</h5>
+            <div class="accordion accordion-flush" id="menuCitas">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCitas" aria-expanded="false" aria-controls="flush-collapseCitas">
+                            <i> <img src="{% static 'iconos/assignment_turned.svg' %}" alt=""></i>
+                            Citas
+                        </button>
+                    </h2>
+                  <div id="flush-collapseCitas" class="accordion-collapse collapse" data-bs-parent="#menuCitas">
+                    <ul class="list-group list-group-flush acordion-body">
+                        <li class="list-group-item"><a href="{% url 'lista_citas' %}">Lista de citas</a></li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="menuPacientes">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePacientes" aria-expanded="false" aria-controls="flush-collapseClientes">
+                            <i> <img src="{% static 'iconos/person.svg' %}" alt=""></i>
+                            Pacientes
+                        </button>
+                    </h2>
+                  <div id="flush-collapsePacientes" class="accordion-collapse collapse" data-bs-parent="#menuPacientes">
+                    <ul class="list-group list-group-flush acordion-body">
+                        <li class="list-group-item"><a href="{% url 'lista_pacientes' %}">Lista de pacientes</a></li>
+                    </ul>
+                  </div>
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="menuEmpleados">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEmpleados" aria-expanded="false" aria-controls="flush-collapseEmpleados">
+                            <i> <img src="{% static 'iconos/badge.svg' %}" alt=""></i>
+                            Empleados
+                        </button>
+                    </h2>
+                    <div id="flush-collapseEmpleados" class="accordion-collapse collapse" data-bs-parent="#menuEmpleados">
+                        <ul class="list-group list-group-flush acordion-body">
+                            <li class="list-group-item"><a href="{% url 'lista-empleados' %}">Lista de empleados</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion accordion-flush" id="menuPagos">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePagos" aria-expanded="false" aria-controls="flush-collapsePagos">
+                            <i> <img src="{% static 'iconos/payments.svg' %}" alt=""></i>
+                            Pagos
+                        </button>
+                    </h2>
+                    <div id="flush-collapsePagos" class="accordion-collapse collapse" data-bs-parent="#menuPagos">
+                        <ul class="list-group list-group-flush acordion-body">
+                            <li class="list-group-item"><a href="{% url 'lista-pagos' %}">Lista de pagos</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+        </section>
+        
+        <!-- Offcanvas para el menú en pantallas pequeñas -->
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Menú</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Servicios</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Equipo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contacto</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Más opciones</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </header>
+    <main>{% block content %}{% endblock content %}</main>
+    <footer></footer>
+    {% block script %}{% endblock script %}
+</body>
+</html>

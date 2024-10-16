@@ -25,6 +25,7 @@ class Historial(models.Model):
     peso = models.CharField(max_length=5, db_column='peso', verbose_name='Peso', blank=True, null=True)
     altura = models.CharField(max_length=5, db_column='altura', verbose_name='Altura', blank=True, null=True)
     diagnostico = models.CharField(max_length=80, db_column='diagnostico', verbose_name='Diagnóstico', blank=True, null=True)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
 
     class Meta:
         verbose_name = 'Historial'

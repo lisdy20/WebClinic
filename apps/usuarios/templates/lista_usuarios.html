@@ -1,0 +1,47 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Lista Usuarios{% endblock title %}
+
+
+{% block content %}
+<center><h1 class="m-4">Usuarios</h1></center>
+      
+{% if user.is_authenticated %}
+<table class="table shadow">
+    <thead>
+        <tr>
+            {% for campo in campos %}
+                <th scope="col">{{ campo }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Verificar si hay datos paginados -->
+        {% if page_obj %}
+            {% for usuario in page_obj %}
+                <tr>
+                    <td>{{ usuario.username }}</td>
+                    <td>{{ usuario.tipo_perfil }}</td>
+                    <td>{{ usuario.apellido }}</td>
+                    <td>{{ usuario.nombre }}</td>
+                    <td>{{ usuario.email }}</td>
+                    <td>{{ usuario.is_staff }}</td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <div class="card shadow p-3 m-3 bg-warning">
+                Aún no hay datos para mostrar...
+            </div>
+        {% endif %}
+    </tbody>
+</table>
+<!-- Incluir el paginador -->
+{% include 'paginator.html' %}
+{% else %}
+<div class="card shadow p-3 m-3 warning">
+    Para mostrar los datos debe iniciar sesión...
+</div>
+{% endif %}
+
+{% endblock content %}
+    

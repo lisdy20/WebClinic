@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}
+Clinica Jordan
+{% endblock title %}
+{% block content %}
+<!-- Sección principal -->
+<header class="bg-primary text-white text-center py-5">
+    <div class="container">
+        <h1>Bienvenido a Clínica Saludable</h1>
+        <p class="lead">Tu salud es nuestra prioridad</p>
+        <a href="#servicios" class="btn btn-light btn-lg mt-3">Conoce nuestros servicios</a>
+    </div>
+</header>
+
+<!-- Sección de servicios -->
+<section id="servicios" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Nuestros Servicios</h2>
+        <div class="row">
+            
+            {% if hay_servicios %}
+                {% for servicio in servicios %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="{{servicio.nombre}}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{servicio.nombre}}</h5>
+                            <p class="card-text">{{servicio.descripcion}}</p>
+                            <p class="card-text">Q {{servicio.costo}}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card shadow p-3 m-3">
+                    Aún no hay datos para mostrar...
+                </div>
+            {% endif %}
+                
+            <a href="{% url 'servicios' %}" class="btn btn-outline-info btn-lg mt-3">Conoce nuestros servicios</a>
+        </div>
+    </div>
+</section>
+
+<!-- Sección del equipo médico -->
+<section id="equipo" class="bg-light py-5 container">
+    <div class="">
+        <h2 class="text-center mb-4">Nuestro Equipo</h2>
+        <div class="row">
+            {% if hay_empleados %}
+                {% for empleado in empleados %}
+                <div class="col-md-4 text-center">
+                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Doctor 1">
+                    <h5>{{empleado.tipo_perfil.nombre}} {{empleado.nombre}} {{empleado.apellido}}</h5>
+                    <p>{{empleado.tipo_perfil.descripcion}}</p>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="card shadow p-3 m-3">
+                    Aún no hay datos para mostrar...
+                </div>
+            {% endif %}
+            <a href="{% url 'equipo' %}" class="btn btn-outline-info btn-lg mt-3">Conoce a nuestro equipo</a>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de contacto -->
+<section id="contacto" class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Contáctanos</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form>
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" placeholder="Tu nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Correo electrónico</label>
+                        <input type="email" class="form-control" id="email" placeholder="Tu correo">
+                    </div>
+                    <div class="mb-3">
+                        <label for="mensaje" class="form-label">Mensaje</label>
+                        <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu mensaje"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
+                </form>
+            </div>
+            <a href="{% url 'contacto' %}" class="btn btn-outline-info btn-lg mt-3">Ver contactos</a>
+        </div>
+    </div>
+</section>
+{% endblock content %}
