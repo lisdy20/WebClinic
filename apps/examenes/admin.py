@@ -15,7 +15,7 @@ class DocResLaboratorioAdmin(admin.ModelAdmin):
 
 @admin.register(ExInterno)
 class ExInternoAdmin(admin.ModelAdmin):
-    list_display=['nombredoctor', 'motivo']
+    list_display=['detallecita','nombredoctor', 'motivo']
     list_filter=['nombredoctor']
 
 @admin.register(DocResInterno)

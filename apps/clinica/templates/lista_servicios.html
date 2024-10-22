@@ -5,12 +5,6 @@
 
 {% block content %}
 <center><h1 class="m-4">Servicios</h1></center>
-{% if request.session.mensaje %}
-  <div class="alert alert-success alert-dismissible fade show" role="alert">
-      {{request.session.mensaje}}
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
-{% endif %}
 <a class="btn btn-outline-success" href="{% url 'agregar-servicio' %}">Agregar</a>
 
 <div class="overflow-scroll">
@@ -68,7 +62,7 @@
 
 {% block script %}
   {% load static %}
-  <script src="{% static 'webclinic/js/common/eliminar.js' %}"></script>
+  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
 {% endblock script %}
   
     

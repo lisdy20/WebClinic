@@ -41,32 +41,12 @@ class ServicioCreateView(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        
+        url = reverse('servicios-list',request=self.request)
         # Pasar el mensaje al contexto si existe en la sesión
-        mensaje = self.request.session.pop('mensaje', None)
-        if mensaje:
-            context['mensaje'] = mensaje
+    
+        context['url'] = url
     
         return context
-
-    def form_valid(self, form):
-        # Agrega variables al contexto en caso de éxito
-        context = self.get_context_data()
-        self.request.session['mensaje'] = 'El servicio fue creado exitosamente.'
-        
-        # Guardar el objeto de la base de datos
-        self.object = form.save()
-        
-        # Redirige al success_url definido
-        return HttpResponseRedirect(self.get_success_url())
-
-    def form_invalid(self, form):
-        # Agrega variables al contexto en caso de error
-        context = self.get_context_data()
-        context['mensaje'] = 'Hubo un error al crear el servicio.'
-        context['form'] = form
-        
-        return self.render_to_response(context)
     
 class ServicioViewSet(viewsets.ModelViewSet):
     queryset = models.Servicio.objects.all()
