@@ -5,7 +5,10 @@
 
 {% block content %}
 <center><h1 class="m-4">Citas</h1></center>
-<table class="table shadow">
+<button class="btn btn-outline-success">Agregar</button>
+
+<div class="overflow-scroll">
+  <table class="table shadow">
     <thead>
       <tr>
         
@@ -51,5 +54,6 @@
         Para mostrar los datos debe iniciar sesión...
       </div>
       {% endif %}
+</div>
 {% endblock content %}
     

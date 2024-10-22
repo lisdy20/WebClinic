@@ -1,0 +1,40 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Agregar Servicio{% endblock title %}
+
+{% block content %}
+    <center><h2 class="m-4">Agregar Servicio</h2></center>
+    {% if mensaje %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{mensaje}}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <div class="mb-3">
+            {{ form.nombreservicio.label }}
+            {{ form.nombreservicio }}
+            {{ form.nombreservicio.errors }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.descripcion.label }}
+            {{ form.descripcion }}
+            {{ form.descripcion.errors }}
+        </div>
+    
+        <div class="mb-3">
+            {{ form.costo.label }}
+            {{ form.costo }}
+            {{ form.costo.errors }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Agregar</button>
+        <a href="{% url 'lista-servicios' %}" class="btn btn-outline-secondary">Volver</a>
+    </form>
+
+{% endblock content %}

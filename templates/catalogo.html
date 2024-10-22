@@ -1,0 +1,143 @@
+{% load static %}
+<a class="navbar-brand d-flex align-items-center pb-3" href="/">
+    <img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
+    <span class="ms-2">Clínica Jordán</span>
+</a>
+<h5>Catálogo</h5>
+{% if user.is_authenticated %}
+<div class="accordion accordion-flush" id="menu">
+    <div class="accordion accordion-flush" id="dashboard">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <a class="accordion-button collapsed" href="{% url 'panel' %}">
+                    <i> <img src="{% static 'iconos/dashboard.svg' %}" alt=""></i>
+                    Dashboard
+                </a>
+            </h2>
+        </div>
+    </div>
+    <div class="accordion accordion-flush" id="menuCitas">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCitas" aria-expanded="false" aria-controls="flush-collapseCitas">
+                    <i> <img src="{% static 'iconos/assignment_turned.svg' %}" alt=""></i>
+                    Citas
+                </button>
+            </h2>
+          <div id="flush-collapseCitas" class="accordion-collapse collapse" data-bs-parent="#menuCitas">
+            <ul class="list-group list-group-flush acordion-body">
+                <li class="list-group-item"><a href="{% url 'lista-citas' %}">Lista de citas</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="accordion accordion-flush" id="menuServicios">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseServicios" aria-expanded="false" aria-controls="flush-collapseServicios">
+                    <i> <img src="{% static 'iconos/inventory.svg' %}" alt=""></i>
+                    Servicios
+                </button>
+            </h2>
+          <div id="flush-collapseServicios" class="accordion-collapse collapse" data-bs-parent="#menuServicios">
+            <ul class="list-group list-group-flush acordion-body">
+                <li class="list-group-item"><a href="{% url 'lista-servicios' %}">Lista de Servicios</a></li>
+            </ul>
+          </div>
+        </div>
+    </div>
+    <div class="accordion accordion-flush" id="menuPacientes">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePacientes" aria-expanded="false" aria-controls="flush-collapsePacientes">
+                    <i> <img src="{% static 'iconos/person.svg' %}" alt=""></i>
+                    Pacientes
+                </button>
+            </h2>
+            <div id="flush-collapsePacientes" class="accordion-collapse collapse" data-bs-parent="#menuPacientes">
+                <ul class="list-group list-group-flush acordion-body">
+                    <li class="list-group-item"><a href="{% url 'lista_pacientes' %}">Lista de pacientes</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    {% if user.is_superuser %}
+        
+    <div class="accordion accordion-flush" id="menuEmpleados">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEmpleados" aria-expanded="false" aria-controls="flush-collapseEmpleados">
+                    <i> <img src="{% static 'iconos/badge.svg' %}" alt=""></i>
+                    Empleados
+                </button>
+            </h2>
+            <div id="flush-collapseEmpleados" class="accordion-collapse collapse" data-bs-parent="#menuEmpleados">
+                <ul class="list-group list-group-flush acordion-body">
+                    <li class="list-group-item"><a href="{% url 'lista-empleados' %}">Lista de empleados</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="accordion accordion-flush" id="menuPagos">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsePagos" aria-expanded="false" aria-controls="flush-collapsePagos">
+                    <i> <img src="{% static 'iconos/payments.svg' %}" alt=""></i>
+                    Pagos
+                </button>
+            </h2>
+            <div id="flush-collapsePagos" class="accordion-collapse collapse" data-bs-parent="#menuPagos">
+                <ul class="list-group list-group-flush acordion-body">
+                    <li class="list-group-item"><a href="{% url 'lista-pagos' %}">Lista de pagos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% if user.is_superuser %}
+    <div class="accordion accordion-flush" id="menuExamenes">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseExamenes" aria-expanded="false" aria-controls="flush-collapseExamenes">
+                    <i> <img src="{% static 'iconos/description.svg' %}" alt=""></i>
+                    Examenes
+                </button>
+            </h2>
+            <div id="flush-collapseExamenes" class="accordion-collapse collapse" data-bs-parent="#menuExamenes">
+                <ul class="list-group list-group-flush acordion-body">
+                    <li class="list-group-item"><a href="{% url 'lista-examenes-internos' %}">Lista de Examenes Internos</a></li>
+                    <li class="list-group-item"><a href="{% url 'lista-examenes-externos' %}">Lista de Examenes Externos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endif %}
+<div class="accordion accordion-flush" id="menuCuenta">
+    <div class="accordion-item dropdown">
+        <h2 class="accordion-header">
+            {% if user.is_authenticated %}
+            <button class="accordion-button collapsed" style="color:#21D610" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCuenta" aria-expanded="false" aria-controls="flush-collapseCuenta">
+                <i> <img src="{% static 'iconos/person.svg' %}" alt=""></i>
+                {{user.username}}
+            {% else %}
+            <button class="accordion-button collapsed" style="color: #656665;" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseCuenta" aria-expanded="false" aria-controls="flush-collapseCuenta">
+                <i> <img src="{% static 'iconos/person.svg' %}" alt=""></i>
+                Cuenta
+            {% endif %}
+            </button>
+        </h2>
+        {% if user.is_authenticated %}
+        <div id="flush-collapseCuenta" class="accordion-collapse collapse" data-bs-parent="#menuCuenta">
+            <ul class="list-group list-group-flush acordion-body">
+                {% if user.is_superuser %}
+                <li class="list-group-item"><a href="/admin/">Adminsitrador</a></li>
+                {% endif %}
+                <li class="list-group-item"><a href="{% url 'logout' %}">Cerrar sesión</a></li>
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>

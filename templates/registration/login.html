@@ -1,0 +1,18 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Inicio de sesión{% endblock title %}
+
+{% block content %}
+    <div class="card bg-body-tertiary shadow">
+        <div class="card-body">
+            <h2 class="text-center">Inicia sesión</h2>
+            <form method="POST">
+                {% csrf_token %}
+                NOMBRE<input type="text" class="form-control" name="username">
+                CONTRASEÑA<input type="password" name="password" class="form-control">
+                <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+            </form>
+        </div>
+    </div>
+{% endblock content %}
+    

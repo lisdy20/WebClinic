@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from apps.clinica import models as modelsClinica
 from apps.usuarios import models as modelsUsuario
@@ -48,6 +50,7 @@ class ContactoTemplateView(TemplateView):
 class PanelTemplateView(TemplateView):
     template_name = 'panel.html'
 
+    @method_decorator(login_required)
     def get(self, request):
         installed_apps = settings.INSTALLED_APPS
         modules=[app.split('.')[-1] for app in installed_apps if not app.startswith('django.')]

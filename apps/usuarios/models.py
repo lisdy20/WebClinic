@@ -21,6 +21,7 @@ class Perfil(AbstractUser):
         ('F', 'Femenino'),
         ('O', 'Otro'),
     ]
+    
     tipo_perfil = models.ForeignKey(TipoPerfil, on_delete=models.CASCADE, db_column='tipo_perfil_id', verbose_name='Tipo de perfil', blank=True, null=True)
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre', blank=True, null=True)
     apellido = models.CharField(max_length=30, db_column='apellido', verbose_name='Apellido', blank=True, null=True)

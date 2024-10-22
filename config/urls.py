@@ -32,6 +32,10 @@ urlpatterns = [
     path('clinica/', include('apps.clinica.urls')),
     path('pacientes/', include('apps.paciente.urls')),
     path('pagos/', include('apps.pagos.urls')),
+    path('examenes/', include('apps.examenes.urls')),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/',include('apps.api.urls')),
 ] + urls.urlpatterns
 
 if settings.DEBUG:
