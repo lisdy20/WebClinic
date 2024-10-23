@@ -153,6 +153,12 @@
                 <li class="list-group-item"><a href="{% url 'logout' %}">Cerrar sesión</a></li>
             </ul>
         </div>
+        {% else %}
+        <div id="flush-collapseCuenta" class="accordion-collapse collapse" data-bs-parent="#menuCuenta">
+            <ul class="list-group list-group-flush acordion-body">
+                <li class="list-group-item"><a href="{% url 'login' %}">Iniciar sesión</a></li>
+            </ul>
+        </div>
         {% endif %}
     </div>
 </div>
