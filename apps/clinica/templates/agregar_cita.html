@@ -1,0 +1,143 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Agregar Cita{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Nueva Cita</h2>
+    <form id="form" action="" method="POST">
+      {% csrf_token %}
+
+      <!-- Campo: Fecha -->
+      <div class="mb-3">
+        <label for="{{ form.fecha.id_for_label }}" class="form-label">{{ form.fecha.label }}</label>
+        {{ form.fecha }}
+        {% if form.fecha.errors %}
+          <div class="text-danger">
+            {{ form.fecha.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Paciente -->
+      <div class="mb-3">
+        <label for="{{ form.paciente.id_for_label }}" class="form-label">{{ form.paciente.label }}</label>
+        {{ form.paciente }}
+        {% if form.paciente.errors %}
+          <div class="text-danger">
+            {{ form.paciente.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Número de autorización -->
+      <div class="mb-3">
+        <label for="{{ form.numaut.id_for_label }}" class="form-label">{{ form.numaut.label }}</label>
+        {{ form.numaut }}
+        {% if form.numaut.errors %}
+          <div class="text-danger">
+            {{ form.numaut.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Número de serie -->
+      <div class="mb-3">
+        <label for="{{ form.numserie.id_for_label }}" class="form-label">{{ form.numserie.label }}</label>
+        {{ form.numserie }}
+        {% if form.numserie.errors %}
+          <div class="text-danger">
+            {{ form.numserie.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: DTE -->
+      <div class="mb-3">
+        <label for="{{ form.dte.id_for_label }}" class="form-label">{{ form.dte.label }}</label>
+        {{ form.dte }}
+        {% if form.dte.errors %}
+          <div class="text-danger">
+            {{ form.dte.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Facturado (Checkbox) -->
+      <div class="form-check mb-3">
+        {{ form.facturado }}
+        <label for="{{ form.facturado.id_for_label }}" class="form-check-label">{{ form.facturado.label }}</label>
+        {% if form.facturado.errors %}
+          <div class="text-danger">
+            {{ form.facturado.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Estado de cita -->
+      <div class="mb-3">
+        <label for="{{ form.estadocita.id_for_label }}" class="form-label">{{ form.estadocita.label }}</label>
+        {{ form.estadocita }}
+        {% if form.estadocita.errors %}
+          <div class="text-danger">
+            {{ form.estadocita.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Total pago -->
+      <div class="mb-3">
+        <label for="{{ form.totalpago.id_for_label }}" class="form-label">{{ form.totalpago.label }}</label>
+        {{ form.totalpago }}
+        {% if form.totalpago.errors %}
+          <div class="text-danger">
+            {{ form.totalpago.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Total pagado -->
+      <div class="mb-3">
+        <label for="{{ form.totalpagado.id_for_label }}" class="form-label">{{ form.totalpagado.label }}</label>
+        {{ form.totalpagado }}
+        {% if form.totalpagado.errors %}
+          <div class="text-danger">
+            {{ form.totalpagado.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Perfil -->
+      <div class="mb-3">
+        <label for="{{ form.perfil.id_for_label }}" class="form-label">{{ form.perfil.label }}</label>
+        {{ form.perfil }}
+        {% if form.perfil.errors %}
+          <div class="text-danger">
+            {{ form.perfil.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Receta médica -->
+      <div class="mb-3">
+        <label for="{{ form.recetamedica.id_for_label }}" class="form-label">{{ form.recetamedica.label }}</label>
+        {{ form.recetamedica }}
+        {% if form.recetamedica.errors %}
+          <div class="text-danger">
+            {{ form.recetamedica.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Botón de envío -->
+      <a onclick="agregar()" class="btn btn-primary">Agregar</a>
+      <a href="{% url 'lista-citas' %}" class="btn btn-outline-secondary">Volver</a>
+    </form>
+  </div>
+  <input type="text" id="url" value="{{url}}" hidden>
+  {% endblock content %}
+  
+  {% load static %}
+  {% block script %}
+  <script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+  {% endblock script %}

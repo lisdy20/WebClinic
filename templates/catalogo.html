@@ -112,6 +112,21 @@
             </div>
         </div>
     </div>
+    <div class="accordion accordion-flush" id="menuMedicamentos">
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseMedicamentos" aria-expanded="false" aria-controls="flush-collapseMedicamentos">
+                    <i> <img src="{% static 'iconos/description.svg' %}" alt=""></i>
+                    Medicamentos
+                </button>
+            </h2>
+            <div id="flush-collapseMedicamentos" class="accordion-collapse collapse" data-bs-parent="#menuMedicamentos">
+                <ul class="list-group list-group-flush acordion-body">
+                    <li class="list-group-item"><a href="{% url 'lista-medicamento' %}">Lista de Medicamentos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     {% endif %}
 </div>
 {% endif %}

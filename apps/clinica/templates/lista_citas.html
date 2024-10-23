@@ -5,7 +5,7 @@
 
 {% block content %}
 <center><h1 class="m-4">Citas</h1></center>
-<button class="btn btn-outline-success">Agregar</button>
+<a href="{% url 'agregar-cita' %}" class="btn btn-outline-success">Agregar</a>
 
 <div class="overflow-scroll">
   <table class="table shadow">
@@ -15,6 +15,8 @@
         {% for campo in campos %}
         <th scope="col">{{campo}}</th>
         {% endfor %}
+
+        {% include 'table_options_header.html' %}
             
       </tr>
     </thead>
@@ -25,17 +27,20 @@
         
         {% if not error %}
         {% csrf_token %}
-            {% for cita in page_obj %}
+            {% for entity in page_obj %}
             <tr>
-                <td>{{cita.fecha}}</td>
-                <td>{{cita.paciente}}</td>
-                <td>{{cita.numaut}}</td>
-                <td>{{cita.numserie}}</td>
-                <td>{{cita.dte}}</td>
-                <td>{{cita.facturado}}</td>
-                <td>{{cita.estadocita}}</td>
-                <td>{{cita.totalpago}}</td>
-                <td>{{cita.totalpagado}}</td>
+                <td>{{entity.fecha}}</td>
+                <td>{{entity.paciente}}</td>
+                <td>{{entity.numaut}}</td>
+                <td>{{entity.numserie}}</td>
+                <td>{{entity.dte}}</td>
+                <td>{{entity.facturado}}</td>
+                <td>{{entity.estadoentity}}</td>
+                <td>{{entity.totalpago}}</td>
+                <td>{{entity.totalpagado}}</td>
+
+                {% include 'table_options.html' %}
+
             </tr>
             {% endfor %}
         {% else %}
@@ -55,5 +60,11 @@
       </div>
       {% endif %}
 </div>
+<input type="text" id="url" value="{{url}}" hidden>
 {% endblock content %}
+
+{% block script %}
+  {% load static %}
+  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+{% endblock script %}
     

@@ -1,11 +1,11 @@
 {% extends 'base_admin.html' %}
 
-{% block title %}Lista Servicios{% endblock title %}
+{% block title %}Lista de Medicamentos{% endblock title %}
 
 
 {% block content %}
-<center><h1 class="m-4">Servicios</h1></center>
-<a class="btn btn-outline-success" href="{% url 'agregar-servicio' %}">Agregar</a>
+<center><h1 class="m-4">Medicamentos</h1></center>
+<a class="btn btn-outline-success" href="{% url 'agregar-medicamento' %}">Agregar</a>
 
 <div class="overflow-scroll">
   <table class="table shadow">
@@ -29,9 +29,8 @@
         {% csrf_token %}
             {% for entity in page_obj %}
             <tr>
-                <td>{{entity.nombreservicio}}</td>
+                <td>{{entity.medicamento}}</td>
                 <td>{{entity.descripcion}}</td>
-                <td>{{entity.costo}}</td>
                 
                 {% include 'table_options.html' %}
                 

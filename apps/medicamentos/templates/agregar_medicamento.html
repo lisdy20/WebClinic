@@ -1,0 +1,44 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Agregar Medicamento{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Agregar Medicamento</h2>
+    <form method="POST" action="" id="form">
+      {% csrf_token %}
+
+      <!-- Campo: Medicamento -->
+      <div class="mb-3">
+        <label for="{{ form.medicamento.id_for_label }}" class="form-label">{{ form.medicamento.label }}</label>
+        {{ form.medicamento }}
+        {% if form.medicamento.errors %}
+          <div class="text-danger">
+            {{ form.medicamento.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Descripción -->
+      <div class="mb-3">
+        <label for="{{ form.descripcion.id_for_label }}" class="form-label">{{ form.descripcion.label }}</label>
+        {{ form.descripcion }}
+        {% if form.descripcion.errors %}
+          <div class="text-danger">
+            {{ form.descripcion.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Botón de envío -->
+      <a onclick="agregar()" class="btn btn-primary">Agregar</a>
+    <a href="{% url 'lista-medicamento' %}" class="btn btn-outline-secondary">Volver</a>
+    </form>
+  </div>
+  <input type="text" id="url" value="{{url}}" hidden>
+  {% endblock content %}
+  
+  {% load static %}
+  {% block script %}
+  <script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+  {% endblock script %}
