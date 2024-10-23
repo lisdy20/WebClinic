@@ -1,4 +1,3 @@
-from django.http.response import HttpResponse as HttpResponse
 from django.shortcuts import render
 from apps.common import utils,views
 from rest_framework.reverse import reverse
@@ -22,6 +21,7 @@ class ListaServicioTemplateView(views.GenericTemplateView):
     template_name = 'lista_servicios.html'
 
     def get(self, request):
+        self.pages_number = 2
         url = reverse('servicios-list',request=request)
         page_obj = self.get_paginator(request=request,model=models.Servicio)
         campos = admin.ServicioAdmin.list_display

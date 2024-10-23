@@ -5,7 +5,7 @@
 
 {% block content %}
 <center><h1 class="m-4">Pagos</h1></center>
-<button class="btn btn-outline-success">Agregar</button>
+<a href="{% url 'agregar-pago' %}" class="btn btn-outline-success">Agregar</a>
 {% if user.is_authenticated %}
 <table class="table shadow">
     <thead>
@@ -13,19 +13,21 @@
             {% for campo in campos %}
                 <th scope="col">{{ campo }}</th>
             {% endfor %}
+            {% include 'table_options_header.html' %}
         </tr>
     </thead>
     <tbody>
         <!-- Verificar si hay datos paginados -->
         {% if page_obj %}
-            {% for pago in page_obj %}
+            {% for entity in page_obj %}
                 <tr>
-                    <td>{{ pago.id }}</td>
-                    <td>{{ pago.cantidadpago }}</td>
-                    <td>{{ pago.cita }}</td>
-                    <td>{{ pago.tipopago }}</td>
-                    <td>{{ pago.descripcion }}</td>
-                    <td>{{ pago.numref }}</td>
+                    <td>{{ entity.id }}</td>
+                    <td>{{ entity.cantidadpago }}</td>
+                    <td>{{ entity.cita }}</td>
+                    <td>{{ entity.tipopago }}</td>
+                    <td>{{ entity.descripcion }}</td>
+                    <td>{{ entity.numref }}</td>
+                    {% include 'table_options.html' %}
                 </tr>
             {% endfor %}
         {% else %}
@@ -42,6 +44,12 @@
     Para mostrar los datos debe iniciar sesión...
 </div>
 {% endif %}
-
+{% csrf_token %}
+<input type="hidden" id="url" value="{{url}}">
 {% endblock content %}
+    
+{% block script %}
+  {% load static %}
+  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+{% endblock script %}
     

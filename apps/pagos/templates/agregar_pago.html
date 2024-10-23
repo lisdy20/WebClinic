@@ -1,0 +1,76 @@
+{% extends 'base_admin.html' %}
+
+{% block title %}Agregar Pago{% endblock title %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Agregar Control de Pago</h2>
+    <form method="post" id="form" action="">
+      {% csrf_token %}
+
+      <!-- Campo: Cantidad de Pago -->
+      <div class="mb-3">
+        <label for="{{ form.cantidadpago.id_for_label }}" class="form-label">{{ form.cantidadpago.label }}</label>
+        {{ form.cantidadpago }}
+        {% if form.cantidadpago.errors %}
+          <div class="text-danger">
+            {{ form.cantidadpago.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Descripción -->
+      <div class="mb-3">
+        <label for="{{ form.descripcion.id_for_label }}" class="form-label">{{ form.descripcion.label }}</label>
+        {{ form.descripcion }}
+        {% if form.descripcion.errors %}
+          <div class="text-danger">
+            {{ form.descripcion.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Tipo de Pago -->
+      <div class="mb-3">
+        <label for="{{ form.tipopago.id_for_label }}" class="form-label">{{ form.tipopago.label }}</label>
+        {{ form.tipopago }}
+        {% if form.tipopago.errors %}
+          <div class="text-danger">
+            {{ form.tipopago.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Número de Referencia -->
+      <div class="mb-3">
+        <label for="{{ form.numref.id_for_label }}" class="form-label">{{ form.numref.label }}</label>
+        {{ form.numref }}
+        {% if form.numref.errors %}
+          <div class="text-danger">
+            {{ form.numref.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- Campo: Cita -->
+      <div class="mb-3">
+        <label for="{{ form.cita.id_for_label }}" class="form-label">{{ form.cita.label }}</label>
+        {{ form.cita }}
+        {% if form.cita.errors %}
+          <div class="text-danger">
+            {{ form.cita.errors }}
+          </div>
+        {% endif %}
+      </div>
+
+        <!-- Botón de envío -->
+        <a onclick="agregar()" class="btn btn-primary">Agregar</a>
+        <a href="{% url 'lista-pagos' %}" class="btn btn-outline-secondary">Volver</a>
+    </form>
+    <input type="text" id="url" value="{{url}}" hidden>
+{% endblock content %}
+
+{% load static %}
+{% block script %}
+<script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+{% endblock script %}
