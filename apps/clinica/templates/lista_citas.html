@@ -1,70 +1,20 @@
-{% extends 'base_admin.html' %}
+{% extends 'list_models.html' %}
 
 {% block title %}Lista Citas{% endblock title %}
+{% block tabletitle %}Lista Citas{% endblock tabletitle %}
 
-
-{% block content %}
-<center><h1 class="m-4">Citas</h1></center>
-<a href="{% url 'agregar-cita' %}" class="btn btn-outline-success">Agregar</a>
-
-<div class="overflow-scroll">
-  <table class="table shadow">
-    <thead>
-      <tr>
-        
-        {% for campo in campos %}
-        <th scope="col">{{campo}}</th>
-        {% endfor %}
-
-        {% include 'table_options_header.html' %}
-            
-      </tr>
-    </thead>
-    <tbody>
-      
-      
-      {% if user.is_authenticated %}
-        
-        {% if not error %}
-        {% csrf_token %}
-            {% for entity in page_obj %}
-            <tr>
-                <td>{{entity.fecha}}</td>
-                <td>{{entity.paciente}}</td>
-                <td>{{entity.numaut}}</td>
-                <td>{{entity.numserie}}</td>
-                <td>{{entity.dte}}</td>
-                <td>{{entity.facturado}}</td>
-                <td>{{entity.estadoentity}}</td>
-                <td>{{entity.totalpago}}</td>
-                <td>{{entity.totalpagado}}</td>
-
-                {% include 'table_options.html' %}
-
-            </tr>
-            {% endfor %}
-        {% else %}
-            <div class="card shadow p-3 m-3 bg-warning">
-                Aún no hay datos para mostrar...
-            </div>
-        {% endif %}
-            
-    </tbody>
-</table>
-{% include 'paginator.html' %}
-      {% else %}
-    </tbody>
-</table>
-      <div class="card shadow p-3 m-3 warning">
-        Para mostrar los datos debe iniciar sesión...
-      </div>
-      {% endif %}
-</div>
-<input type="text" id="url" value="{{url}}" hidden>
-{% endblock content %}
-
-{% block script %}
-  {% load static %}
-  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
-{% endblock script %}
+{% block tablecontent %}
+  <tr>
+      <td>{{entity.fecha}}</td>
+      <td>{{entity.paciente}}</td>
+      <td>{{entity.numaut}}</td>
+      <td>{{entity.numserie}}</td>
+      <td>{{entity.dte}}</td>
+      <td>{{entity.facturado}}</td>
+      <td>{{entity.estadoentity}}</td>
+      <td>{{entity.totalpago}}</td>
+      <td>{{entity.totalpagado}}</td>
+      {% include 'table_options.html' %}
+  </tr>
+{% endblock tablecontent %}
     

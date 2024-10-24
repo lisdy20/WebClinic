@@ -6,4 +6,5 @@ urlpatterns = [
     path('lista_servicios/', views.ListaServicioTemplateView.as_view(),name='lista-servicios'),
     path('agregar_servicio/',views.ServicioCreateView.as_view(),name='agregar-servicio'),
     path('agregar_cita/',views.CitaCreateView.as_view(),name='agregar-cita'),
+    path('editar_servicio/<int:pk>/',views.ServicioEditView.as_view(),name='editar-servicio'),
 ]

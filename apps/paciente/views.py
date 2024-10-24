@@ -8,8 +8,8 @@ class ListaPacientesTemplateView(views.GenericTemplateView):
     template_name = 'lista_pacientes.html'
 
     def get(self, request):
-        page_obj = self.get_paginator(request=request,model=models.Paciente)
+        data = self.get_paginator(request=request,model=models.Paciente)
         campos = admin.PacienteAdmin.list_display
         campos = utils.format_names(names=campos)
-        data={'page_obj': page_obj,'campos':campos}
+        data['campos']=campos
         return render(request=request, template_name=self.template_name,context=data)

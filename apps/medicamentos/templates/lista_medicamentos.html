@@ -1,60 +1,15 @@
-{% extends 'base_admin.html' %}
+{% extends 'list_models.html' %}
 
 {% block title %}Lista de Medicamentos{% endblock title %}
+{% block tabletitle %}Medicamentos{% endblock tabletitle %}
 
-
-{% block content %}
-<center><h1 class="m-4">Medicamentos</h1></center>
-<a class="btn btn-outline-success" href="{% url 'agregar-medicamento' %}">Agregar</a>
-
-<div class="overflow-scroll">
-  <table class="table shadow">
-    <thead>
-      <tr>
-        
-        {% for campo in campos %}
-        <th scope="col">{{campo}}</th>
-        {% endfor %}
-
-        {% include 'table_options_header.html' %}
-      </tr>
-    </thead>
-    
-    <tbody>
-      
-      
-      {% if user.is_authenticated %}
-        
-        {% if not error %}
-        {% csrf_token %}
-            {% for entity in page_obj %}
+{% block tablecontent %}
             <tr>
                 <td>{{entity.medicamento}}</td>
                 <td>{{entity.descripcion}}</td>
-                
                 {% include 'table_options.html' %}
-                
             </tr>
-            {% endfor %}
-        {% else %}
-            <div class="card shadow p-3 m-3 bg-warning">
-                Aún no hay datos para mostrar...
-            </div>
-        {% endif %}
-            
-    </tbody>
-</table>
-{% include 'paginator.html' %}
-      {% else %}
-    </tbody>
-</table>
-      <div class="card shadow p-3 m-3 warning">
-        Para mostrar los datos debe iniciar sesión...
-      </div>
-      {% endif %}
-</div>
-<input type="text" id="url" value="{{url}}" hidden>
-{% endblock content %}
+{% endblock tablecontent %}
 
 
 {% block script %}

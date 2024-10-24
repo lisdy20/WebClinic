@@ -1,4 +1,4 @@
 {% load static %}
 <td><button onclick=""><img src="{% static 'iconos/view.svg' %}" alt="view"></button></td>
-<td><button onclick=""><img src="{% static 'iconos/edit.svg' %}" alt="edit"></button></td>
+<td><button onclick="go_to_edit({{entity.id}})"><img src="{% static 'iconos/edit.svg' %}" alt="edit"></button></td>
 <td><button onclick="eliminar({{entity.id}})"><img src="{% static 'iconos/delete.svg' %}" alt="delete"></button></td>

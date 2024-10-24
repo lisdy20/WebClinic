@@ -1,0 +1,55 @@
+{% extends 'base_admin.html' %}
+
+
+{% block content %}
+<center><h1 class="m-4">{% block tabletitle %}{% endblock tabletitle %}</h1></center>
+<a class="btn btn-outline-success" href="{% url 'agregar-servicio' %}">Agregar</a>
+
+<div class="overflow-scroll mt-3">
+  <table class="table table-bordered border-secondary table-hover">
+    <thead>
+        <tr class="table-info">
+          
+          {% for campo in campos %}
+          <th scope="col">{{campo}}</th>
+          {% endfor %}
+    
+          {% include 'table_options_header.html' %}
+        </tr>
+    </thead>
+    <tbody>
+      
+      
+      {% if user.is_authenticated %}
+        {% if not error %}
+        {% csrf_token %}
+            {% for entity in page_obj %}
+            {% block tablecontent %}{% endblock tablecontent %}
+            {% endfor %}
+        {% else %}
+        <div class="card shadow p-3 m-3 bg-warning">
+            Aún no hay datos para mostrar...
+        </div>
+        {% endif %}
+    </tbody>
+    {% if paginator.num_pages > 1 %}<caption>Página {{page_obj.number}} de {{paginator.num_pages}}</caption>{% endif %}
+    
+  </table>
+      {% include 'paginator.html' %}
+      {% else %}
+    </tbody>
+  </table>
+      <div class="card shadow p-3 m-3 warning">
+        Para mostrar los datos debe iniciar sesión...
+      </div>
+      {% endif %}
+</div>
+<input type="text" id="url" value="{{url}}" hidden>
+<input type="text" id="url_edit" value="{{url_edit}}" hidden>
+{% endblock content %}
+
+{% block script %}
+  {% load static %}
+  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+  <script src="{% static 'webclinic/js/common/redirect.js' %}"></script>
+{% endblock script %}

@@ -1,55 +1,16 @@
-{% extends 'base_admin.html' %}
+{% extends 'list_models.html' %}
 
 {% block title %}Lista Pagos{% endblock title %}
+{% block tabletitle %}Pagos{% endblock tabletitle %}
 
-
-{% block content %}
-<center><h1 class="m-4">Pagos</h1></center>
-<a href="{% url 'agregar-pago' %}" class="btn btn-outline-success">Agregar</a>
-{% if user.is_authenticated %}
-<table class="table shadow">
-    <thead>
-        <tr>
-            {% for campo in campos %}
-                <th scope="col">{{ campo }}</th>
-            {% endfor %}
-            {% include 'table_options_header.html' %}
-        </tr>
-    </thead>
-    <tbody>
-        <!-- Verificar si hay datos paginados -->
-        {% if page_obj %}
-            {% for entity in page_obj %}
-                <tr>
-                    <td>{{ entity.id }}</td>
-                    <td>{{ entity.cantidadpago }}</td>
-                    <td>{{ entity.cita }}</td>
-                    <td>{{ entity.tipopago }}</td>
-                    <td>{{ entity.descripcion }}</td>
-                    <td>{{ entity.numref }}</td>
-                    {% include 'table_options.html' %}
-                </tr>
-            {% endfor %}
-        {% else %}
-            <div class="card shadow p-3 m-3 bg-warning">
-                Aún no hay datos para mostrar...
-            </div>
-        {% endif %}
-    </tbody>
-</table>
-<!-- Incluir el paginador -->
-{% include 'paginator.html' %}
-{% else %}
-<div class="card shadow p-3 m-3 warning">
-    Para mostrar los datos debe iniciar sesión...
-</div>
-{% endif %}
-{% csrf_token %}
-<input type="hidden" id="url" value="{{url}}">
-{% endblock content %}
-    
-{% block script %}
-  {% load static %}
-  <script src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
-{% endblock script %}
-    
+{% block tablecontent %}
+    <tr>
+        <td>{{ entity.id }}</td>
+        <td>{{ entity.cantidadpago }}</td>
+        <td>{{ entity.cita }}</td>
+        <td>{{ entity.tipopago }}</td>
+        <td>{{ entity.descripcion }}</td>
+        <td>{{ entity.numref }}</td>
+        {% include 'table_options.html' %}
+    </tr>
+{% endblock tablecontent %}

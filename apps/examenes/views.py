@@ -7,20 +7,20 @@ class ListaExamenesInternosTemplateView(views.GenericTemplateView):
     template_name = 'lista_examenes_internos.html'
 
     def get(self, request):
-        page_obj = self.get_paginator(request=request,model=models.ExInterno)
+        data = self.get_paginator(request=request,model=models.ExInterno)
         campos = admin.ExInternoAdmin.list_display
         campos = utils.format_names(names=campos)
-        data={'page_obj': page_obj,'campos':campos}
+        data['campos']=campos
         return render(request=request, template_name=self.template_name,context=data)
     
 class ListaExamenesExternosTemplateView(views.GenericTemplateView):
     template_name = 'lista_examenes_externos.html'
 
     def get(self, request):
-        page_obj = self.get_paginator(request=request,model=models.ExLaboratorio)
+        data = self.get_paginator(request=request,model=models.ExLaboratorio)
         campos = admin.ExLaboratorioAdmin.list_display
         campos = utils.format_names(names=campos)
-        data={'page_obj': page_obj,'campos':campos}
+        data['campos']=campos
         return render(request=request, template_name=self.template_name,context=data)
     
     
