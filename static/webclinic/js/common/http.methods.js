@@ -119,7 +119,7 @@ function actualizar(opcion){
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Something went wrong!",
+          text: "¡Ha ocurrido un error!",
         });
       }
     }
