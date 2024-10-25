@@ -1,10 +1,10 @@
 {% extends 'base_admin.html' %}
 
-{% block title %}Agregar Pago{% endblock title %}
+{% block title %}Editar Pago{% endblock title %}
 
 {% block content %}
   <div class="container mt-5">
-    <h2>Agregar Control de Pago</h2>
+    <h2>Editar Control de Pago</h2>
     <form method="post" id="form" action="">
       {% csrf_token %}
 
@@ -65,7 +65,7 @@
 
         <!-- Botón de envío -->
         <a onclick="agregar()" class="btn btn-primary">Agregar</a>
-        <a href="{% url 'lista-pagos' %}" class="btn btn-outline-secondary">Volver a la lista</a>
+        <a href="{% url 'lista-pagos' %}" class="btn btn-outline-secondary">Volver</a>
     </form>
     <input type="text" id="url" value="{{url}}" hidden>
 {% endblock content %}

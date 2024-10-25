@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-Clinica Jordan
+Inicio
 {% endblock title %}
 {% block content %}
 <!-- Sección principal -->
@@ -21,12 +21,13 @@ Clinica Jordan
             {% if hay_servicios %}
                 {% for servicio in servicios %}
                 <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="https://via.placeholder.com/350x150" class="card-img-top" alt="{{servicio.nombre}}">
+                    <div class="card mb-4 shadow">
+                        <div class="card-header">
+                            <h5 class="card-title">{{servicio.nombreservicio}}</h5>
+                        </div>
                         <div class="card-body">
-                            <h5 class="card-title">{{servicio.nombre}}</h5>
                             <p class="card-text">{{servicio.descripcion}}</p>
-                            <p class="card-text">Q {{servicio.costo}}</p>
+                            <p class="card-text text-success">Q {{servicio.costo}}</p>
                         </div>
                     </div>
                 </div>
@@ -49,10 +50,15 @@ Clinica Jordan
         <div class="row">
             {% if hay_empleados %}
                 {% for empleado in empleados %}
-                <div class="col-md-4 text-center">
-                    <img src="https://via.placeholder.com/150" class="rounded-circle mb-3" alt="Doctor 1">
-                    <h5>{{empleado.tipo_perfil.nombre}} {{empleado.nombre}} {{empleado.apellido}}</h5>
-                    <p>{{empleado.tipo_perfil.descripcion}}</p>
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow">
+                        <div class="card-header">
+                            <h5>{{empleado.tipo_perfil.nombre}} {{empleado.nombre}} {{empleado.apellido}}</h5>
+                        </div>
+                        <div class="card-body">
+                            <p>{{empleado.tipo_perfil.descripcion}}</p>
+                        </div>
+                    </div>
                 </div>
                 {% endfor %}
             {% else %}
@@ -65,30 +71,4 @@ Clinica Jordan
     </div>
 </section>
 
-<!-- Sección de contacto -->
-<section id="contacto" class="py-5">
-    <div class="container">
-        <h2 class="text-center mb-4">Contáctanos</h2>
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form>
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" placeholder="Tu nombre">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Correo electrónico</label>
-                        <input type="email" class="form-control" id="email" placeholder="Tu correo">
-                    </div>
-                    <div class="mb-3">
-                        <label for="mensaje" class="form-label">Mensaje</label>
-                        <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu mensaje"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Enviar</button>
-                </form>
-            </div>
-            <a href="{% url 'contacto' %}" class="btn btn-outline-info btn-lg mt-3">Ver contactos</a>
-        </div>
-    </div>
-</section>
 {% endblock content %}

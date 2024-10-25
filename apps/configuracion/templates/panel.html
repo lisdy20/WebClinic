@@ -1,5 +1,5 @@
 {% extends 'base_admin.html' %}
-{% block title %}Panel de Control | WebClinic{% endblock title %}
+{% block title %}Panel de Control{% endblock title %}
 
 
 {% block head %}
@@ -37,8 +37,8 @@
 {% block content %}
 <div class="container my-4">
     <div class="dashboard-header text-center">
-        <h2>Medical Dashboard</h2>
-        <p>Overview of appointments, payments, patients, and exams</p>
+        <h2>Panel de Control Médico</h2>
+        <p>Revisión de citas, pagos, pacientes &amp; exámenes</p>
     </div>
 
     <!-- Row 1: Statistics -->
@@ -47,7 +47,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>1,200</h3>
-                    <p class="card-title">Total Patients</p>
+                    <p class="card-title">Total de Pacientes</p>
                 </div>
             </div>
         </div>
@@ -55,7 +55,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>850</h3>
-                    <p class="card-title">Total Appointments</p>
+                    <p class="card-title">Total de Citas</p>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>300</h3>
-                    <p class="card-title">Pending Payments</p>
+                    <p class="card-title">Pagos Pendientes</p>
                 </div>
             </div>
         </div>
@@ -71,7 +71,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>900</h3>
-                    <p class="card-title">Completed Payments</p>
+                    <p class="card-title">Pagos Completados</p>
                 </div>
             </div>
         </div>
@@ -79,7 +79,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>450</h3>
-                    <p class="card-title">Internal Exams</p>
+                    <p class="card-title">Exámenes Internos</p>
                 </div>
             </div>
         </div>
@@ -87,7 +87,7 @@
             <div class="card text-center">
                 <div class="card-body">
                     <h3>300</h3>
-                    <p class="card-title">External Exams</p>
+                    <p class="card-title">Exámenes Externos</p>
                 </div>
             </div>
         </div>
@@ -99,7 +99,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="appointmentsChart"></canvas>
+                    <canvas id="CitasChart"></canvas>
                 </div>
             </div>
         </div>
@@ -107,7 +107,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="examsChart"></canvas>
+                    <canvas id="ExamenesChart"></canvas>
                 </div>
             </div>
         </div>
@@ -119,7 +119,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="statusChart"></canvas>
+                    <canvas id="EstadosChart"></canvas>
                 </div>
             </div>
         </div>
@@ -127,7 +127,7 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <canvas id="paymentChart"></canvas>
+                    <canvas id="PagosChart"></canvas>
                 </div>
             </div>
         </div>
@@ -138,13 +138,13 @@
 {% block script %}
 <script>
     // Appointments by Month
-    const ctx1 = document.getElementById('appointmentsChart').getContext('2d');
-    const appointmentsChart = new Chart(ctx1, {
+    const ctx1 = document.getElementById('CitasChart').getContext('2d');
+    const CitasChart = new Chart(ctx1, {
         type: 'line',
         data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
             datasets: [{
-                label: 'Appointments',
+                label: 'Citas',
                 data: [80, 100, 95, 120, 85, 90, 110, 105, 120, 130, 140, 150],
                 backgroundColor: 'rgba(54, 162, 235, 0.2)',
                 borderColor: 'rgba(54, 162, 235, 1)',
@@ -155,11 +155,11 @@
     });
 
     // Exams Distribution (Internal vs External)
-    const ctx2 = document.getElementById('examsChart').getContext('2d');
-    const examsChart = new Chart(ctx2, {
+    const ctx2 = document.getElementById('ExamenesChart').getContext('2d');
+    const ExamenesChart = new Chart(ctx2, {
         type: 'doughnut',
         data: {
-            labels: ['Internal Exams', 'External Exams'],
+            labels: ['Exámenes Internos', 'Exámenes Externos'],
             datasets: [{
                 data: [450, 300],
                 backgroundColor: ['#36A2EB', '#FF6384']
@@ -168,13 +168,13 @@
     });
 
     // Appointment Status
-    const ctx3 = document.getElementById('statusChart').getContext('2d');
-    const statusChart = new Chart(ctx3, {
+    const ctx3 = document.getElementById('EstadosChart').getContext('2d');
+    const EstadosChart = new Chart(ctx3, {
         type: 'bar',
         data: {
-            labels: ['Pending', 'Completed', 'Cancelled'],
+            labels: ['Pendientes', 'Completados', 'Cancelados'],
             datasets: [{
-                label: 'Appointments',
+                label: 'Citas',
                 data: [60, 700, 90],
                 backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
             }]
@@ -182,11 +182,11 @@
     });
 
     // Payment Status
-    const ctx4 = document.getElementById('paymentChart').getContext('2d');
-    const paymentChart = new Chart(ctx4, {
+    const ctx4 = document.getElementById('PagosChart').getContext('2d');
+    const PagosChart = new Chart(ctx4, {
         type: 'pie',
         data: {
-            labels: ['Paid', 'Unpaid', 'Pending'],
+            labels: ['Pagados', 'Sin Pagar', 'Pendientes'],
             datasets: [{
                 data: [900, 150, 50],
                 backgroundColor: ['#4BC0C0', '#FF6384', '#FFCE56']

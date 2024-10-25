@@ -33,7 +33,13 @@ class ServiciosTemplateView(TemplateView):
     template_name = 'inicio/servicios.html'
 
     def get(self, request):
-        return render(request=request,template_name=self.template_name)
+        data={}
+        servicios = modelsClinica.Servicio.objects.all()
+        hay_servicios=len(servicios)>0
+
+        data['hay_servicios'] = hay_servicios
+        data['servicios'] = servicios
+        return render(request=request,template_name=self.template_name,context=data)
     
 class NuestroEquipoTemplateView(TemplateView):
     template_name = 'inicio/nuestro_equipo.html'

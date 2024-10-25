@@ -5,12 +5,9 @@
 
 {% block tablecontent %}
     <tr>
-        <td>{{ entity.id }}</td>
-        <td>{{ entity.cantidadentity }}</td>
         <td>{{ entity.cita }}</td>
-        <td>{{ entity.tipoentity }}</td>
-        <td>{{ entity.descripcion }}</td>
-        <td>{{ entity.numref }}</td>
+        <td>{{ entity.motivo }}</td>
+        <td>{{ entity.nombrelab }}</td>
         {% include 'table_options.html' %}
     </tr>
 {% endblock tablecontent %}

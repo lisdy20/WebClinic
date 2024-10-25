@@ -4,3 +4,9 @@ function go_to_edit(id=null){
         location.href=`${url_edit}${id}`;
     }
 }
+
+function regresar(){
+    const url_list = document.querySelector('#url_list').value;
+
+    location.href=url_list;
+}

@@ -1,7 +1,6 @@
 {% load static %}
 <a class="navbar-brand d-flex align-items-center pb-3" href="/">
-    <img src="https://via.placeholder.com/40" alt="Logo" class="d-inline-block align-text-top">
-    <span class="ms-2">Clínica Jordán</span>
+    <img src="{% static 'favicon.svg' %}" width="128" height="64" alt="Logo" class="d-inline-block align-text-top">
 </a>
 <h5>Catálogo</h5>
 {% if user.is_authenticated %}
@@ -11,7 +10,7 @@
             <h2 class="accordion-header">
                 <a class="accordion-button collapsed" href="{% url 'panel' %}">
                     <i> <img src="{% static 'iconos/dashboard.svg' %}" alt=""></i>
-                    Dashboard
+                    Tablero
                 </a>
             </h2>
         </div>

@@ -1,0 +1,26 @@
+{% extends 'base_admin.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <center><h2>{% block formtitle %}{% endblock formtitle %}</h2></center>
+    <form id="form" action="" method="POST">
+      {% csrf_token %}
+
+      {% block formcontent %}{% endblock formcontent %}
+
+      <!-- Botón de envío -->
+      <a onclick="agregar()" class="btn btn-primary">Agregar</a>
+      <a onclick="agregar(1)" class="btn btn-primary">Agregar y seguir editando</a>
+      <a onclick="regresar()" class="btn btn-outline-secondary">Volver a la lista</a>
+    </form>
+  </div>
+  <input type="text" id="url" value="{{url}}" hidden>
+  <input type="text" id="url_edit" value="{{url_edit}}" hidden>
+  <input type="text" id="url_list" value="{{url_list}}" hidden>
+  {% endblock content %}
+  
+  {% load static %}
+  {% block script %}
+  <script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
+  <script type="text/javascript" src="{% static 'webclinic/js/common/redirect.js' %}"></script>
+  {% endblock script %}

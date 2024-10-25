@@ -5,4 +5,5 @@ urlpatterns = [
     path('clinica/', include('apps.clinica.api_urls')),  # Incluye las URLs de la aplicación que contiene el router
     path('medicamento/', include('apps.medicamentos.api_urls')),  # Incluye las URLs de la aplicación que contiene el router
     path('pago/', include('apps.pagos.api_urls')),  # Incluye las URLs de la aplicación que contiene el router
+    path('examen/', include('apps.examenes.api_urls')),  # Incluye las URLs de la aplicación que contiene el router
 ]
