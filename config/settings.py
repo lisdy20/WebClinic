@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # third apps
     'rest_framework',
+    'jazzmin',
     # Application Defaults
     'django.contrib.admin',
     'django.contrib.auth',
@@ -156,5 +157,30 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
+JAZZMIN_SETTINGS = {
+    'site_title':'Çlínica Jordán',
+    'site_brand':'Çlínica Jordán',
+    'site_header':'Çlínica Jordán',
+    'site_logo':'favicon.svg',
+    'site_icon':'favicon.svg',
+    'welcome_sign':'¡Bienvenido!',
+    "usermenu_links": [
+        {"name": "Inicio", "url": "/", "new_window": False},
+        {"name": "Tablero", "url": "/tablero/", "new_window": False},
+    ],
+
+    'topmenu_links': [
+
+        # Url that gets reversed (Permissions can be added)
+        {'name':'Inicio','url':'/'},
+        {'name':'Tablero','url':'/tablero/'},
+
+        # model admin to link to (Permissions checked against model)
+        #{"model": "auth.User"},
+
+        
     ]
 }

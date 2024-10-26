@@ -28,3 +28,11 @@ class ControlPago(models.Model):
         
     def __str__(self):
         return f'Se ha pagado {self.cantidadpago} en la cita {self.cita.id}'
+    
+    def save(self):
+        self.pagar()
+        return super().save()
+
+    def pagar(self,pago):
+        cita = self.pago.cita
+        print(cita)

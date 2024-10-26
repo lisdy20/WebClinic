@@ -9,6 +9,7 @@ from . import models,admin,serializers,forms
 # Create your views here.
 class PagosListTemplateView(views.GenericTemplateView):
     template_name = 'lista_pagos.html'
+
     def get(self, request):
         url = reverse('pagos-list',request=request)
         url_edit = reverse_lazy('editar-pago',kwargs={'pk':0})
@@ -29,11 +30,15 @@ class PagosCreateView(views.GenericTemplateView):
 
     def get(self, request, *args, **kwargs):
         data={}
+        
         data['form']=forms.ControlPagoForm
         url = reverse('pagos-list',request=request)
-        # Pasar el mensaje al contexto si existe en la sesión
+        url_list = reverse_lazy('lista-pagos')
+        url_edit = reverse_lazy('editar-pago',kwargs={'pk':0})
         data['url'] = url
-        return render(request=request, template_name=self.template_name,context=data)
+        data['url_edit'] = str(url_edit).replace('0/','')
+        data['url_list'] = url_list
+        return render(request=request,template_name=self.template_name,context=data)
     
 class PagoEditView(views.GenericTemplateView):
     template_name = 'editar_pago.html'
@@ -44,13 +49,16 @@ class PagoEditView(views.GenericTemplateView):
         entity = utils.model_or_none(model=models.ControlPago, pk=kwargs['pk'])
         form = forms.ControlPagoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('pagos-list',request=request)
+        url_list = reverse_lazy('lista-pagos')
+        data['id']=kwargs['pk']
         data['url'] = url
+        data['url_list'] = url_list
         data['form']=form
         data['entity']=entity
         return render(request=request, template_name=self.template_name,context=data)
     
 # ---------------------------------------------------------------- Views DRF
 
-class ControlPagoViewSet(viewsets.ModelViewSet):
+class ControlPagoViewSet(views.GenericViewSet):
     queryset = models.ControlPago.objects.all()
     serializer_class = serializers.ControlPagoSerializer

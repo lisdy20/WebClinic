@@ -6,7 +6,7 @@
 {% block tablecontent %}
   <tr>
       <td>{{entity.fecha}}</td>
-      <td>{{entity.paciente}}</td>
+      <td>{{entity.paciente.nombre_completo}}</td>
       <td>{{entity.numaut}}</td>
       <td>{{entity.numserie}}</td>
       <td>{{entity.dte}}</td>
@@ -17,4 +17,3 @@
       {% include 'table_options.html' %}
   </tr>
 {% endblock tablecontent %}
-    

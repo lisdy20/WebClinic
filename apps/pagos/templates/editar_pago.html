@@ -1,14 +1,9 @@
 {% extends 'base_admin.html' %}
 
 {% block title %}Editar Pago{% endblock title %}
+{% block formtitle %}Editar Pago{% endblock formtitle %}
 
-{% block content %}
-  <div class="container mt-5">
-    <h2>Editar Control de Pago</h2>
-    <form method="post" id="form" action="">
-      {% csrf_token %}
-
-      <!-- Campo: Cantidad de Pago -->
+{% block formcontent %}
       <div class="mb-3">
         <label for="{{ form.cantidadpago.id_for_label }}" class="form-label">{{ form.cantidadpago.label }}</label>
         {{ form.cantidadpago }}
@@ -62,15 +57,4 @@
           </div>
         {% endif %}
       </div>
-
-        <!-- Botón de envío -->
-        <a onclick="agregar()" class="btn btn-primary">Agregar</a>
-        <a href="{% url 'lista-pagos' %}" class="btn btn-outline-secondary">Volver</a>
-    </form>
-    <input type="text" id="url" value="{{url}}" hidden>
-{% endblock content %}
-
-{% load static %}
-{% block script %}
-<script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
-{% endblock script %}
+{% endblock formcontent %}

@@ -36,6 +36,9 @@ class Paciente(models.Model):
     
     def __str__(self) -> str:
         return f'Paciente {self.id}: {self.nombre} {self.apellido}'
+    
+    def nombre_completo(self):
+        return f'{self.nombre} {self.apellido}'
 
 class Antecedente(models.Model):
     tipoantecedente = models.ForeignKey(TipoAntecedente, on_delete=models.CASCADE, db_column='tipoantecedente', verbose_name='Tipo de antecedente', blank=False, null=False)

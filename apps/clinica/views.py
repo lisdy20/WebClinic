@@ -56,6 +56,7 @@ class ServicioCreateView(views.GenericTemplateView):
         data['url_list'] = url_list
         return render(request=request,template_name=self.template_name,context=data)
     
+
 class ServicioEditView(views.GenericTemplateView):
     template_name = 'editar_servicio.html'
     
@@ -78,6 +79,7 @@ class CitaCreateView(views.GenericTemplateView):
 
     def get(self, request, *args, **kwargs):
         data={}
+        
         data['form']=forms.CitaForm
         url = reverse('citas-list',request=request)
         url_list = reverse_lazy('lista-citas')
@@ -96,7 +98,10 @@ class CitaEditView(views.GenericTemplateView):
         entity = utils.model_or_none(model=models.Cita, pk=kwargs['pk'])
         form = forms.CitaForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('citas-list',request=request)
+        url_list = reverse_lazy('lista-citas')
+        data['id']=kwargs['pk']
         data['url'] = url
+        data['url_list'] = url_list
         data['form']=form
         data['entity']=entity
         return render(request=request, template_name=self.template_name,context=data)

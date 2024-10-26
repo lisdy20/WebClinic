@@ -25,10 +25,16 @@ class ListaExamenesExternosTemplateView(views.GenericTemplateView):
     template_name = 'lista_examenes_externos.html'
 
     def get(self, request):
+        url = reverse('examenes-externos-list',request=request)
+        url_edit = reverse_lazy('editar-examen-externo',kwargs={'pk':0})
+        url_add = reverse_lazy('agregar-examen-externo')
         data = self.get_paginator(request=request,model=models.ExLaboratorio)
         campos = admin.ExLaboratorioAdmin.list_display
         campos = utils.format_names(names=campos)
         data['campos']=campos
+        data['url']=url
+        data['url_edit']=str(url_edit).replace('0/','')
+        data['url_add']=url_add
         return render(request=request, template_name=self.template_name,context=data)
     
 # - - - - - - - - - - - - - - - - - - - - - -
@@ -38,9 +44,14 @@ class ExamenInternoCreateView(views.GenericTemplateView):
 
     def get(self, request, *args, **kwargs):
         data={}
+        
         data['form']=forms.ExamenInternoForm
-        url = reverse('servicios-list',request=request)
+        url = reverse('examenes-internos-list',request=request)
+        url_list = reverse_lazy('lista-examenes-internos')
+        url_edit = reverse_lazy('editar-examen-interno',kwargs={'pk':0})
         data['url'] = url
+        data['url_edit'] = str(url_edit).replace('0/','')
+        data['url_list'] = url_list
         return render(request=request,template_name=self.template_name,context=data)
     
 class ExamenInternoEditView(views.GenericTemplateView):
@@ -51,8 +62,44 @@ class ExamenInternoEditView(views.GenericTemplateView):
         data={}
         entity = utils.model_or_none(model=models.ExInterno, pk=kwargs['pk'])
         form = forms.ExamenInternoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
-        url = reverse('servicios-list',request=request)
+        url = reverse('examenes-internos-list',request=request)
+        url_list = reverse_lazy('lista-examenes-internos')
+        data['id']=kwargs['pk']
         data['url'] = url
+        data['url_list'] = url_list
+        data['form']=form
+        data['entity']=entity
+        return render(request=request, template_name=self.template_name,context=data)
+    
+
+class ExamenExternoCreateView(views.GenericTemplateView):
+    template_name='agregar_examen_externo.html'
+
+    def get(self, request, *args, **kwargs):
+        data={}
+        
+        data['form']=forms.ExamenExternoForm
+        url = reverse('examenes-externos-list',request=request)
+        url_list = reverse_lazy('lista-examenes-externos')
+        url_edit = reverse_lazy('editar-examen-externo',kwargs={'pk':0})
+        data['url'] = url
+        data['url_edit'] = str(url_edit).replace('0/','')
+        data['url_list'] = url_list
+        return render(request=request,template_name=self.template_name,context=data)
+    
+class ExamenExternoEditView(views.GenericTemplateView):
+    template_name = 'editar_examen_interno.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Obtener el producto por su 'pk'
+        data={}
+        entity = utils.model_or_none(model=models.ExInterno, pk=kwargs['pk'])
+        form = forms.ExamenExternoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        url = reverse('examenes-externos-list',request=request)
+        url_list = reverse_lazy('lista-examenes-externos')
+        data['id']=kwargs['pk']
+        data['url'] = url
+        data['url_list'] = url_list
         data['form']=form
         data['entity']=entity
         return render(request=request, template_name=self.template_name,context=data)
@@ -61,3 +108,7 @@ class ExamenInternoEditView(views.GenericTemplateView):
 class ExamenInternoViewSet(views.GenericViewSet):
     queryset = models.ExInterno.objects.all()
     serializer_class = serializers.ExamenInternoSerializer
+
+class ExamenExternoViewSet(views.GenericViewSet):
+    queryset = models.ExInterno.objects.all()
+    serializer_class = serializers.ExamenExternoSerializer
