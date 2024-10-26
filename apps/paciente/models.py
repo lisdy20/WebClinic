@@ -10,6 +10,9 @@ class TipoAntecedente(models.Model):
         verbose_name_plural = 'Tipo de antecedentes'
         db_table = 'TipoAntecedente'
 
+    def __str__(self):
+        return f'{self.nombre}'
+
 
 class Paciente(models.Model):
     GENEROS_CHOICES = (
@@ -30,6 +33,9 @@ class Paciente(models.Model):
         verbose_name = 'Paciente'
         verbose_name_plural = 'Pacientes'
         db_table = 'pacientes'
+    
+    def __str__(self) -> str:
+        return f'Paciente {self.id}: {self.nombre} {self.apellido}'
 
 class Antecedente(models.Model):
     tipoantecedente = models.ForeignKey(TipoAntecedente, on_delete=models.CASCADE, db_column='tipoantecedente', verbose_name='Tipo de antecedente', blank=False, null=False)
@@ -40,6 +46,9 @@ class Antecedente(models.Model):
         verbose_name = 'Antecedente'
         verbose_name_plural = 'Antecedentes'
         db_table = 'antecedentes'
+    
+    def __str__(self) -> str:
+        return f'{self.tipoantecedente}: {self.descripcion}'
 
 class ContactoPaciente(models.Model):
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
@@ -51,4 +60,7 @@ class ContactoPaciente(models.Model):
         verbose_name = 'Contacto de paciente'
         verbose_name_plural = 'Contactos de pacientes'
         db_table = 'contactopaciente'
+
+    def __str__(self) -> str:
+        return f'{self.paciente.nombre}: {self.numcel}'
         

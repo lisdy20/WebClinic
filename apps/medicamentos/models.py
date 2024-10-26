@@ -11,6 +11,9 @@ class RecetaMedica(models.Model):
         verbose_name_plural = 'Recetas médicas'
         db_table = 'recetamedica'
 
+    def __str__(self) -> str:
+        return f'{self.fecha} - {self.observaciones}'
+
 class Medicamento(models.Model):
     medicamento = models.CharField(max_length=30, db_column='medicamento', verbose_name='Medicamento', blank=False, null=False)
     descripcion = models.TextField(max_length=255, db_column='descripcion', verbose_name='Descripción', blank=True, null=True)
@@ -19,6 +22,9 @@ class Medicamento(models.Model):
         verbose_name = 'Medicamento'
         verbose_name_plural = 'Medicamentos'
         db_table = 'medicamentos'
+
+    def __str__(self) -> str:
+        return f'{self.medicamento}'
 
 class DetalleRecetaMe(models.Model):
     dosiscantidad = models.TextField(max_length=255, db_column='dosiscantidad', verbose_name='Dosis en cantidad', blank=False, null=False)
@@ -30,4 +36,7 @@ class DetalleRecetaMe(models.Model):
         verbose_name = 'Detalle de receta médica'
         verbose_name_plural = 'Detalles de recetas médicas'
         db_table = 'detallerecetamedica'
+
+    def __str__(self) -> str:
+        return f'Medicamento: {self.dosiscantidad} de {self.medicamento} cada {self.dosistiempo}'
         

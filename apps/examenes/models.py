@@ -14,6 +14,9 @@ class ExLaboratorio(models.Model):
         verbose_name_plural = 'Exámenes de laboratorio'
         db_table = 'ExLaboratorio'
 
+    def __str__(self):
+        return f'Examen en {self.nombrelab} por {self.motivo}'
+
 class DocResLaboratorio(models.Model):
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre del documento', blank=False, null=False)
     ubicacion = models.FileField(db_column='ubicacion', verbose_name='Ubicación', blank=False, null=False)
@@ -23,6 +26,9 @@ class DocResLaboratorio(models.Model):
         verbose_name = 'Documento de resultado de examen laboratorio'
         verbose_name_plural = 'Documentos de resultados de exámenes laboratorio'
         db_table = 'DocResLaboratorio'
+    
+    def __str__(self):
+        return f'{self.nombre}'
 
 class ExInterno(models.Model):
     detallecita = models.ForeignKey(DetalleCita, on_delete=models.CASCADE, db_column='detallecita', verbose_name='Cita', blank=False, null=False)
@@ -34,6 +40,9 @@ class ExInterno(models.Model):
         verbose_name_plural = 'Exámenes internos'
         db_table = 'ExInterno'
 
+    def __str__(self):
+        return f'Examen realizado por {self.motivo} hecho por {self.nombredoctor}'
+
 class DocResInterno(models.Model):
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre del documento', blank=False, null=False)
     ubicacion = models.FileField(db_column='ubicacion', verbose_name='Ubicación', blank=False, null=False)
@@ -43,4 +52,7 @@ class DocResInterno(models.Model):
         verbose_name = 'Documento de resultado de examen interno'
         verbose_name_plural = 'Documentos de resultados de exámenes internos'
         db_table = 'DocResInterno'
+
+    def __str__(self):
+        return f'{self.nombre}'
 

@@ -11,6 +11,9 @@ class TipoPago(models.Model):
         verbose_name_plural = 'Tipos de pagos'
         db_table = 'TipoPago'
 
+    def __str__(self):
+        return f'{self.nombre}'
+
 class ControlPago(models.Model):
     cantidadpago = models.DecimalField(max_digits=10,decimal_places=2, db_column='cantidadpago', verbose_name='Cantidad de pago', blank=False, null=False)
     descripcion = models.TextField(max_length=255, db_column='descripcion', verbose_name='Descripción', blank=True, null=True)
@@ -23,3 +26,5 @@ class ControlPago(models.Model):
         verbose_name_plural = 'Control de pagos'
         db_table = 'ControlPago'
         
+    def __str__(self):
+        return f'Se ha pagado {self.cantidadpago} en la cita {self.cita.id}'

@@ -13,6 +13,9 @@ class EstadoCita(models.Model):
         verbose_name_plural = 'Estado de citas'
         db_table = 'EstadoCita'
 
+    def __str__(self):
+        return f'{self.NombreEstado}'
+
 class Historial(models.Model):
     motivo = models.CharField(max_length=80, db_column='motivo', verbose_name='Motivo de cita', blank=True, null=True)
     historiaenfer = models.CharField(max_length=80, db_column='historiaenfer', verbose_name='Historia de enfermedad', blank=True, null=True)
@@ -32,6 +35,9 @@ class Historial(models.Model):
         verbose_name_plural = 'Historiales'
         db_table = 'Historial'
 
+    def __str__(self):
+        return f'Historial de {self.paciente} por {self.motivo}'
+
 class Servicio(models.Model):
     nombreservicio = models.CharField(max_length=30, db_column='nombreservicio', verbose_name='Nombre del servicio', blank=False, null=False)
     descripcion = models.CharField(max_length=80, db_column='descripcion', verbose_name='Descripción del servicio', blank=True, null=True)
@@ -41,6 +47,9 @@ class Servicio(models.Model):
         verbose_name = 'Servicio'
         verbose_name_plural = 'Servicios'
         db_table = 'Servicio'
+
+    def __str__(self):
+        return f'{self.nombreservicio}: Q{self.costo}'
 
 class Cita(models.Model):
     fecha = models.DateTimeField(default=datetime.now(), db_column='fecha', verbose_name='Fecha de cita', blank=False, null=False)
@@ -60,6 +69,9 @@ class Cita(models.Model):
         verbose_name_plural = 'Citas'
         db_table = 'Cita'
 
+    def __str__(self) -> str:
+        return f'Cita #{self.id} hecha el {self.fecha} para {self.paciente}'
+
 
 class DetalleCita(models.Model):
     historial = models.ForeignKey(Historial, on_delete=models.CASCADE, db_column='historial_id', verbose_name='Historial', blank=False, null=False)
@@ -71,3 +83,7 @@ class DetalleCita(models.Model):
         verbose_name = 'Detalle de cita'
         verbose_name_plural = 'Detalle de citas'
         db_table = 'DetalleCita'
+
+    def __str__(self):
+        return f'{self.servicio.nombreservicio} por {self.servicio.costo}'
+    
