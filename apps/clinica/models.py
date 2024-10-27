@@ -1,5 +1,8 @@
 from django.db import models
 from datetime import datetime
+from decimal import Decimal
+from django.db.models import Sum
+
 from apps.paciente.models import Paciente
 from apps.usuarios.models import Perfil
 from apps.medicamentos.models import RecetaMedica
@@ -39,6 +42,10 @@ class Historial(models.Model):
     def __str__(self):
         return f'Historial de {self.paciente} por {self.motivo}'
     
+    def save(self,**kwargs):
+        if self.activo == False:
+            raise Exception('Una vez eliminado no se puede modificar.')
+    
     def detele(self,**kwargs):
         self.activo = False
         self.save()
@@ -57,6 +64,10 @@ class Servicio(models.Model):
     def __str__(self):
         return f'{self.nombreservicio}: Q{self.costo}'
     
+    def save(self,**kwargs):
+        if self.activo == False:
+            raise Exception('Una vez eliminado no se puede modificar.')
+        
     def detele(self,**kwargs):
         self.activo = False
         self.save()
@@ -96,13 +107,39 @@ class Cita(models.Model):
     
     def save(self,**kwargs):
         self.facturado = True if self.numaut and self.numserie and self.dte else False
+        if self.activo == False:
+            raise Exception('Una vez eliminado no se puede modificar.')
         return super().save(**kwargs)
     
     def pagado(self):
         return self.totalpagado==self.totalpago and self.totalpago != 0
     
-    def diferencia_pago(self):
-        return self.totalpago-self.totalpagado
+    @property
+    def pago_pendiente(self):
+        return self.totalpago - self.totalpagado
+    
+    def actualizar_total_pagado(self):
+        # Sumar todos los pagos activos y actualizar el campo totalpagado
+        self.totalpagado = self.totalpagado_excluyendo()
+        self.save(update_fields=['totalpagado'])
+
+    def totalpagado_excluyendo(self, pago_id=None):
+        from apps.pagos.models import ControlPago
+        # Calcula el total pagado excluyendo el pago con ID pago_id (útil para evitar duplicados en actualización)
+        pagos = ControlPago.objects.filter(cita=self, activo=True)
+        if pago_id:
+            pagos = pagos.exclude(id=pago_id)
+        return pagos.aggregate(total=Sum('cantidadpago'))['total'] or Decimal(0)
+    
+    def calcular_total_detalle(self):
+        # Sumar subtotales de detalles activos de la cita
+        total = DetalleCita.objects.filter(cita=self, activo=True).aggregate(total=Sum('subtotal'))['total']
+        return total or Decimal(0)
+    
+    def actualizar_total_pago(self):
+        # Actualizar el campo totalpago con la suma de subtotales activos
+        self.totalpago = self.calcular_total_detalle()
+        self.save(update_fields=['totalpago'])
     
     def detele(self,**kwargs):
         self.activo = False
@@ -126,23 +163,21 @@ class DetalleCita(models.Model):
         return f'{self.servicio.nombreservicio} por {self.servicio.costo}'
     
     def save(self,**kwargs):
-        if self.descuento<=self.subtotal:
+        if self.activo == False:
+            raise Exception('Una vez eliminado no se puede modificar.')
+        if self.descuento<=self.servicio.costo:
             if self.cita.FINALIZADA == self.cita.estado or self.cita.CANCELADA == self.cita.estado:
                 raise Exception('La cita debe estar en espera o en consulta.')
             if not self.activo:
                 raise Exception('El registro ya está eliminado no puede agregar más detalles.')
             self.subtotal = self.servicio.costo - self.descuento
-            cita = self.cita
-            cita.totalpago+=self.subtotal
-            cita.save()
-            return super().save(**kwargs)
+            super().save(**kwargs)
+            self.cita.actualizar_total_pago()
         else:
             raise Exception('El descuento no puede ser mayor al costo.')
         
     def detele(self,**kwargs):
-        cita = self.cita
-        cita.totalpago-=self.subtotal
-        cita.save() 
+        self.cita.actualizar_total_pago()
         self.activo = False
         self.save()
     

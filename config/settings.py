@@ -151,6 +151,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL='usuarios.Perfil'
 
+DATE_INPUT_FORMATS = [
+    '%Y-%m-%d',  # Para input de tipo date
+]
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

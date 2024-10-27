@@ -26,7 +26,7 @@ class ServicioAdmin(admin.ModelAdmin):
 @admin.register(Cita)
 class CitaAdmin(admin.ModelAdmin):
     inlines=[DetalleCitaInLine]
-    list_display=['fecha', 'paciente', 'numaut', 'numserie', 'dte', 'facturado', 'estado', 'totalpago','diferencia_pago', 'totalpagado','pagado']
+    list_display=['fecha', 'paciente', 'numaut', 'numserie', 'dte', 'facturado', 'estado', 'totalpago','pago_pendiente', 'totalpagado','pagado']
     search_fields=['paciente', 'numaut', 'numserie', 'dte']
     list_filter=['activo']
 
