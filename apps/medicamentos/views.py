@@ -41,7 +41,7 @@ class MedicamentoCreateView(views.GenericTemplateView):
 # ---------------------------------------------------------------- DRF Views
 
 class MedicamentoViewSet(views.GenericViewSet):
-    queryset = models.Medicamento.objects.all()
+    queryset = models.Medicamento.objects.filter(activo=False)
     serializer_class = serializers.MedicamentoSerializer
 
 # ----------------------------------------------------------------

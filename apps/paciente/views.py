@@ -60,5 +60,5 @@ class PacienteEditView(views.GenericTemplateView):
 # - - - - - - - - - - - - - - - - - - - - - - Views DRF
 
 class PacienteViewSet(views.GenericViewSet):
-    queryset = models.Paciente.objects.all()
+    queryset = models.Paciente.objects.filter(activo=True)
     serializer_class = serializers.PacienteSerializer

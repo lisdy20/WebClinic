@@ -106,9 +106,9 @@ class ExamenExternoEditView(views.GenericTemplateView):
     
 # ---------------------------------------------------------------- DRF Views
 class ExamenInternoViewSet(views.GenericViewSet):
-    queryset = models.ExInterno.objects.all()
+    queryset = models.ExInterno.objects.filter(activo=True)
     serializer_class = serializers.ExamenInternoSerializer
 
 class ExamenExternoViewSet(views.GenericViewSet):
-    queryset = models.ExInterno.objects.all()
+    queryset = models.ExInterno.objects.filter(activo=True)
     serializer_class = serializers.ExamenExternoSerializer
