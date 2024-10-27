@@ -6,6 +6,7 @@ from django.contrib.auth.models import AbstractUser
 class TipoPerfil(models.Model):
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre', blank=True, null=True)
     descripcion = models.TextField(db_column='descripcion', verbose_name='Descripción', blank=True, null=True)
+    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
     
     class Meta:
         verbose_name = 'Tipo de perfil'
@@ -14,6 +15,10 @@ class TipoPerfil(models.Model):
 
     def __str__(self):
         return f'{self.nombre} {self.descripcion}'
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
 
 class Perfil(AbstractUser):
     GENEROS_CHOICES = [
@@ -30,6 +35,7 @@ class Perfil(AbstractUser):
     fechanac = models.DateField(db_column='fechanac', verbose_name='Fecha de nacimiento', blank=True, null=True)
     genero = models.CharField(max_length=1, choices=GENEROS_CHOICES, db_column='genero', verbose_name='Género', blank=True, null=True)
     telefono = models.CharField(max_length=15, db_column='telefono', verbose_name='Teléfono', blank=True, null=True)
+    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
     
     
     class Meta:
@@ -39,3 +45,7 @@ class Perfil(AbstractUser):
 
     def __str__(self):
         return f'{self.nombre} {self.apellido}'
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()

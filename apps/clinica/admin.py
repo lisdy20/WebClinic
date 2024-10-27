@@ -14,18 +14,23 @@ class EstadoCitaAdmin(admin.ModelAdmin):
 @admin.register(Historial)
 class HistorialAdmin(admin.ModelAdmin):
     list_display=['motivo', 'historiaenfer', 'diagnostico']
+    search_fields=['motivo','historiaenfer','diagnostico']
+    list_filter=['activo']
 
 @admin.register(Servicio)
 class ServicioAdmin(admin.ModelAdmin):
     list_display=['nombreservicio', 'descripcion', 'costo']
     search_fields=['nombreservicio']
+    list_filter=['activo']
 
 @admin.register(Cita)
 class CitaAdmin(admin.ModelAdmin):
     inlines=[DetalleCitaInLine]
-    list_display=['fecha', 'paciente', 'numaut', 'numserie', 'dte', 'facturado', 'estadocita', 'totalpago', 'totalpagado']
+    list_display=['fecha', 'paciente', 'numaut', 'numserie', 'dte', 'facturado', 'estado', 'totalpago', 'totalpagado']
     search_fields=['paciente', 'numaut', 'numserie', 'dte']
+    list_filter=['activo']
 
 @admin.register(DetalleCita)
 class DetalleCitaAdmin(admin.ModelAdmin):
     list_display=['historial', 'cita', 'servicio', 'subtotal']
+    list_filter=['activo']

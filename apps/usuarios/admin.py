@@ -7,6 +7,7 @@ from .forms import PerfilChangeForm, PerfilCreateForm
 @admin.register(TipoPerfil)
 class TipoPerfilAdmin(admin.ModelAdmin):
     list_display=['nombre', 'descripcion']
+    list_filter=['activo']
 
 @admin.register(Perfil)
 class PerfilAdmin(UserAdmin):
@@ -29,3 +30,4 @@ class PerfilAdmin(UserAdmin):
         ),
     )
     list_display=('username', 'tipo_perfil', 'apellido', 'nombre', 'email', 'is_staff')
+    list_filter=['activo']

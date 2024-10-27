@@ -1,4 +1,5 @@
 function agregar(opcion){
+  const url_list = document.querySelector("#url_list").value;
   const url_edit = document.querySelector("#url_edit").value;
   const url = document.querySelector("#url").value;
   const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
@@ -22,6 +23,7 @@ function agregar(opcion){
     cancelButtonText: "Cancelar"
   }).then( async (result) => {
     if (result.isConfirmed) {
+      console.log(data);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -46,7 +48,7 @@ function agregar(opcion){
                 break;
             
               default:
-                location.reload();
+                location.href=url_list;
                 break;
             }
           }
@@ -54,8 +56,8 @@ function agregar(opcion){
       } else {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
+          title: "Error...",
+          text: "¡Ha ocurrido un error!",
         });
       }
     }

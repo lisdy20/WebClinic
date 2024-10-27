@@ -6,19 +6,23 @@ from .models import ExLaboratorio, DocResLaboratorio, ExInterno, DocResInterno
 @admin.register(ExLaboratorio)
 class ExLaboratorioAdmin(admin.ModelAdmin):
     list_display=['cita', 'motivo', 'nombrelab']
-    search_fields=['cita']
+    search_fields=['cita','motivo','nombrelab']
+    list_filter=['activo']
 
 @admin.register(DocResLaboratorio)
 class DocResLaboratorioAdmin(admin.ModelAdmin):
     list_display=['nombre', 'exlaboratorio']
     search_fields=['nombre']
+    list_filter=['activo']
 
 @admin.register(ExInterno)
 class ExInternoAdmin(admin.ModelAdmin):
     list_display=['detallecita','nombredoctor', 'motivo']
     list_filter=['nombredoctor']
+    list_filter=['activo']
 
 @admin.register(DocResInterno)
 class DocResInternoAdmin(admin.ModelAdmin):
     list_display=['nombre', 'exinterno']
     search_fields=['nombre']
+    list_filter=['activo']

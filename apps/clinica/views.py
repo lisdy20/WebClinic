@@ -108,9 +108,9 @@ class CitaEditView(views.GenericTemplateView):
 
 # ---------------------------------------------------------------- DRF Views
 class ServicioViewSet(views.GenericViewSet):
-    queryset = models.Servicio.objects.all()
+    queryset = models.Servicio.objects.filter(activo=True)
     serializer_class = serializers.ServicioSerializer
 
 class CitaViewSet(views.GenericViewSet):
-    queryset = models.Cita.objects.all()
+    queryset = models.Cita.objects.filter(activo=True)
     serializer_class = serializers.CitaSerializer

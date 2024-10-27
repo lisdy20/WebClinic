@@ -29,6 +29,7 @@ class Historial(models.Model):
     altura = models.CharField(max_length=5, db_column='altura', verbose_name='Altura', blank=True, null=True)
     diagnostico = models.CharField(max_length=80, db_column='diagnostico', verbose_name='Diagnóstico', blank=True, null=True)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Historial'
@@ -37,11 +38,16 @@ class Historial(models.Model):
 
     def __str__(self):
         return f'Historial de {self.paciente} por {self.motivo}'
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
 
 class Servicio(models.Model):
     nombreservicio = models.CharField(max_length=30, db_column='nombreservicio', verbose_name='Nombre del servicio', blank=False, null=False)
     descripcion = models.CharField(max_length=80, db_column='descripcion', verbose_name='Descripción del servicio', blank=True, null=True)
     costo = models.DecimalField(max_digits=10, decimal_places=2, db_column='costo', verbose_name='Costo del servicio', blank=False, null=False)
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Servicio'
@@ -50,19 +56,35 @@ class Servicio(models.Model):
 
     def __str__(self):
         return f'{self.nombreservicio}: Q{self.costo}'
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
 
 class Cita(models.Model):
+    EN_ESPERA='EE'
+    EN_CONSULTA='EC'
+    FINALIZADA='F'
+    CANCELADA='C'
+    ESTADO_CHOICES=[
+        (EN_ESPERA, 'En espera'),
+        (EN_CONSULTA, 'En consulta'),
+        (FINALIZADA, 'Finalizada'),
+        (CANCELADA, 'Cancelada'),
+    ]
     fecha = models.DateTimeField(default=datetime.now(), db_column='fecha', verbose_name='Fecha de cita', blank=False, null=False)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
-    numaut = models.CharField(max_length=80, db_column='numaut', verbose_name='Número de autorización', blank=False, null=False)
-    numserie = models.CharField(max_length=80, db_column='numserie', verbose_name='Número de serie', blank=False, null=False)
-    dte = models.CharField(max_length=80, db_column='dte', verbose_name='DTE', blank=False, null=False)
+    numaut = models.CharField(max_length=80, db_column='numaut', verbose_name='Número de autorización', blank=True, null=True)
+    numserie = models.CharField(max_length=80, db_column='numserie', verbose_name='Número de serie', blank=True, null=True)
+    dte = models.CharField(max_length=80, db_column='dte', verbose_name='DTE', blank=True, null=True)
     facturado = models.BooleanField(db_column='facturado', verbose_name='Facturado', default=False)
+    estado = models.CharField(max_length=2, db_column='estado',verbose_name='Estado', blank=False, null=False,default=EN_ESPERA,choices=ESTADO_CHOICES)
     estadocita = models.ForeignKey(EstadoCita, on_delete=models.CASCADE, db_column='estadocita_id', verbose_name='Estado de cita', blank=False, null=False)
     totalpago = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpago', verbose_name='Total pago')
     totalpagado = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpagado', verbose_name='Total pagado')
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, db_column='perfil_id', verbose_name='Perfil')
-    recetamedica = models.ForeignKey(RecetaMedica, on_delete=models.CASCADE, db_column='recetamedica_id', verbose_name='Receta médica')
+    recetamedica = models.ForeignKey(RecetaMedica, on_delete=models.CASCADE, db_column='recetamedica_id', verbose_name='Receta médica',null=True,blank=True)
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Cita'
@@ -71,13 +93,25 @@ class Cita(models.Model):
 
     def __str__(self) -> str:
         return f'Cita #{self.id} hecha el {self.fecha} para {self.paciente}'
+    
+    def pagado(self):
+        return self.totalpagado==self.totalpago
+    
+    def diferencia_pago(self):
+        return self.totalpago-self.totalpagado
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
 
 
 class DetalleCita(models.Model):
-    historial = models.ForeignKey(Historial, on_delete=models.CASCADE, db_column='historial_id', verbose_name='Historial', blank=False, null=False)
+    historial = models.ForeignKey(Historial, on_delete=models.CASCADE, db_column='historial_id', verbose_name='Historial', blank=True, null=True)
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE, db_column='cita_id', verbose_name='Cita', blank=False, null=False)
     servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, db_column='servicio_id', verbose_name='Servicio', blank=False, null=False)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2, blank=False, null=False)
+    descuento = models.DecimalField(verbose_name='Descuento',max_digits=10,decimal_places=2,default=0)
+    subtotal = models.DecimalField(verbose_name='Subtotal',max_digits=10, decimal_places=2,default=0, blank=False, null=False)
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Detalle de cita'
@@ -86,4 +120,17 @@ class DetalleCita(models.Model):
 
     def __str__(self):
         return f'{self.servicio.nombreservicio} por {self.servicio.costo}'
+    
+    def save(self,**kwargs):
+        if self.descuento<=self.subtotal:
+            self.subtotal = self.servicio.costo - self.descuento
+            if self.cita.FINALIZADA or self.cita.CANCELADA or not self.activo:
+                raise Exception('La cita debe estar en espera o en consulta.')
+            return super().save(**kwargs)
+        else:
+            raise Exception('El descuento no puede ser mayor al costo.')
+        
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
     

@@ -11,7 +11,7 @@ class GenericTemplateView(TemplateView):
 
     def get_paginator(self,request=None,model=None):
         data={}
-        entity = model.objects.all()
+        entity = model.objects.filter(activo=True)
         if self.enable_paginator:
             paginator = Paginator(entity, self.elements_per_pages)
             page_number = request.GET.get('page')

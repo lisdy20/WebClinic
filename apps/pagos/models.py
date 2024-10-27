@@ -5,6 +5,8 @@ from apps.clinica.models import Cita
 
 class TipoPago(models.Model): 
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre tipo de pago', blank=False, null=False)
+    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
+    
 
     class Meta:
         verbose_name = 'Tipo de pago'
@@ -13,6 +15,10 @@ class TipoPago(models.Model):
 
     def __str__(self):
         return f'{self.nombre}'
+    
+    def detele(self,**kwargs):
+        self.activo = False
+        self.save()
 
 class ControlPago(models.Model):
     cantidadpago = models.DecimalField(max_digits=10,decimal_places=2, db_column='cantidadpago', verbose_name='Cantidad de pago', blank=False, null=False)
@@ -20,6 +26,7 @@ class ControlPago(models.Model):
     tipopago = models.ForeignKey(TipoPago, on_delete=models.CASCADE, db_column='tipopago', verbose_name='Tipo de pago', blank=False, null=False)
     numref = models.CharField(max_length=30, db_column='numref', verbose_name='Número de referencia', blank=True, null=True)
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE, db_column='cita', verbose_name='Cita', blank=False, null=False)
+    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Control de pago'
@@ -27,12 +34,26 @@ class ControlPago(models.Model):
         db_table = 'ControlPago'
         
     def __str__(self):
-        return f'Se ha pagado {self.cantidadpago} en la cita {self.cita.id}'
+        return f'Se ha pagado {self.cantidadpago} en la cita #{self.cita.id}'
     
-    def save(self):
+    def save(self,**kwargs):
         self.pagar()
-        return super().save()
+        return super().save(**kwargs)
+    
+    def delete(self,**kwargs):
+        self.activo = False
+        self.descontar()
+    
+    def pagar(self):
+        cita = self.cita
+        if cita.diferencia_pago < self.cantidadpago:
+            raise Exception('No puede pagar más del total.')
+        cita.totalpagado+=self.cantidadpago
+        cita.save()
 
-    def pagar(self,pago):
-        cita = self.pago.cita
-        print(cita)
+    def descontar(self):
+        cita = self.cita
+        if cita.totalpagado < self.cantidadpago:
+            raise Exception('No se puede descontar más dinero de la cita.')
+        cita.totalpagado-=self.cantidadpago
+        cita.save()
