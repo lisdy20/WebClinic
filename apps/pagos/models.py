@@ -5,7 +5,7 @@ from apps.clinica.models import Cita
 
 class TipoPago(models.Model): 
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre tipo de pago', blank=False, null=False)
-    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
     
 
     class Meta:
@@ -26,7 +26,7 @@ class ControlPago(models.Model):
     tipopago = models.ForeignKey(TipoPago, on_delete=models.CASCADE, db_column='tipopago', verbose_name='Tipo de pago', blank=False, null=False)
     numref = models.CharField(max_length=30, db_column='numref', verbose_name='Número de referencia', blank=True, null=True)
     cita = models.ForeignKey(Cita, on_delete=models.CASCADE, db_column='cita', verbose_name='Cita', blank=False, null=False)
-    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
         verbose_name = 'Control de pago'
