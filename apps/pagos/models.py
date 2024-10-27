@@ -46,7 +46,8 @@ class ControlPago(models.Model):
     
     def pagar(self):
         cita = self.cita
-        if cita.diferencia_pago < self.cantidadpago:
+
+        if cita.diferencia_pago() < self.cantidadpago:
             raise Exception('No puede pagar más del total.')
         cita.totalpagado+=self.cantidadpago
         cita.save()
