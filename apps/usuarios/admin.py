@@ -25,6 +25,7 @@ class PerfilAdmin(UserAdmin):
                     'fechanac',
                     'genero',
                     'telefono',
+                    'activo'
                 )
             }
         ),
