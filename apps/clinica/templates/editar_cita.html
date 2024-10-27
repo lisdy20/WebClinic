@@ -5,124 +5,43 @@
 {% block formtitle %}Editar Cita{% endblock formtitle %}
 
 {% block formcontent %}
-      <!-- Campo: Fecha -->
-      <div class="mb-3">
-        <label for="{{ form.fecha.id_for_label }}" class="form-label">{{ form.fecha.label }}</label>
-        {{ form.fecha }}
-        {% if form.fecha.errors %}
-          <div class="text-danger">
-            {{ form.fecha.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_fecha">Fecha de cita:</label>
+  {{ form.fecha.value|date:"d/m/Y H:i" }}
+</div>
 
-      <!-- Campo: Paciente -->
-      <div class="mb-3">
-        <label for="{{ form.paciente.id_for_label }}" class="form-label">{{ form.paciente.label }}</label>
-        {{ form.paciente }}
-        {% if form.paciente.errors %}
-          <div class="text-danger">
-            {{ form.paciente.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_paciente">Paciente:</label>
+  {{ form.paciente }}
+</div>
 
-      <!-- Campo: Número de autorización -->
-      <div class="mb-3">
-        <label for="{{ form.numaut.id_for_label }}" class="form-label">{{ form.numaut.label }}</label>
-        {{ form.numaut }}
-        {% if form.numaut.errors %}
-          <div class="text-danger">
-            {{ form.numaut.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_numaut">Número de autorización:</label>
+  {{ form.numaut }}
+</div>
 
-      <!-- Campo: Número de serie -->
-      <div class="mb-3">
-        <label for="{{ form.numserie.id_for_label }}" class="form-label">{{ form.numserie.label }}</label>
-        {{ form.numserie }}
-        {% if form.numserie.errors %}
-          <div class="text-danger">
-            {{ form.numserie.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_numserie">Número de serie:</label>
+  {{ form.numserie }}
+</div>
 
-      <!-- Campo: DTE -->
-      <div class="mb-3">
-        <label for="{{ form.dte.id_for_label }}" class="form-label">{{ form.dte.label }}</label>
-        {{ form.dte }}
-        {% if form.dte.errors %}
-          <div class="text-danger">
-            {{ form.dte.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_dte">DTE:</label>
+  {{ form.dte }}
+</div>
 
-      <!-- Campo: Facturado (Checkbox) -->
-      <div class="form-check mb-3">
-        {{ form.facturado }}
-        <label for="{{ form.facturado.id_for_label }}" class="form-check-label">{{ form.facturado.label }}</label>
-        {% if form.facturado.errors %}
-          <div class="text-danger">
-            {{ form.facturado.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_estado">Estado:</label>
+  {{ form.estado }}
+</div>
 
-      <!-- Campo: Estado de cita -->
-      <div class="mb-3">
-        <label for="{{ form.estadocita.id_for_label }}" class="form-label">{{ form.estadocita.label }}</label>
-        {{ form.estadocita }}
-        {% if form.estadocita.errors %}
-          <div class="text-danger">
-            {{ form.estadocita.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_perfil">Perfil:</label>
+  {{ form.perfil }}
+</div>
 
-      <!-- Campo: Total pago -->
-      <div class="mb-3">
-        <label for="{{ form.totalpago.id_for_label }}" class="form-label">{{ form.totalpago.label }}</label>
-        {{ form.totalpago }}
-        {% if form.totalpago.errors %}
-          <div class="text-danger">
-            {{ form.totalpago.errors }}
-          </div>
-        {% endif %}
-      </div>
-
-      <!-- Campo: Total pagado -->
-      <div class="mb-3">
-        <label for="{{ form.totalpagado.id_for_label }}" class="form-label">{{ form.totalpagado.label }}</label>
-        {{ form.totalpagado }}
-        {% if form.totalpagado.errors %}
-          <div class="text-danger">
-            {{ form.totalpagado.errors }}
-          </div>
-        {% endif %}
-      </div>
-
-      <!-- Campo: Perfil -->
-      <div class="mb-3">
-        <label for="{{ form.perfil.id_for_label }}" class="form-label">{{ form.perfil.label }}</label>
-        {{ form.perfil }}
-        {% if form.perfil.errors %}
-          <div class="text-danger">
-            {{ form.perfil.errors }}
-          </div>
-        {% endif %}
-      </div>
-
-      <!-- Campo: Receta médica -->
-      <div class="mb-3">
-        <label for="{{ form.recetamedica.id_for_label }}" class="form-label">{{ form.recetamedica.label }}</label>
-        {{ form.recetamedica }}
-        {% if form.recetamedica.errors %}
-          <div class="text-danger">
-            {{ form.recetamedica.errors }}
-          </div>
-        {% endif %}
-      </div>
+<div class="form-group">
+  <label for="id_recetamedica">Receta médica:</label>
+  {{ form.recetamedica }}
+</div>
 {% endblock formcontent %}

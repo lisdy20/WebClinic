@@ -60,28 +60,6 @@
 {% endif %}
 </div>
 
-<!-- Campo: Facturado (Checkbox) -->
-<div class="form-check mb-3">
-{{ form.facturado }}
-<label for="{{ form.facturado.id_for_label }}" class="form-check-label">{{ form.facturado.label }}</label>
-{% if form.facturado.errors %}
-  <div class="text-danger">
-    {{ form.facturado.errors }}
-  </div>
-{% endif %}
-</div>
-
-<!-- Campo: Estado de cita -->
-<div class="mb-3">
-<label for="{{ form.estadocita.id_for_label }}" class="form-label">{{ form.estadocita.label }}</label>
-{{ form.estadocita }}
-{% if form.estadocita.errors %}
-  <div class="text-danger">
-    {{ form.estadocita.errors }}
-  </div>
-{% endif %}
-</div>
-
 <!-- Campo: Perfil -->
 <div class="mb-3">
 <label for="{{ form.perfil.id_for_label }}" class="form-label">{{ form.perfil.label }}</label>
@@ -89,17 +67,6 @@
 {% if form.perfil.errors %}
   <div class="text-danger">
     {{ form.perfil.errors }}
-  </div>
-{% endif %}
-</div>
-
-<!-- Campo: Receta médica -->
-<div class="mb-3">
-<label for="{{ form.recetamedica.id_for_label }}" class="form-label">{{ form.recetamedica.label }}</label>
-{{ form.recetamedica }}
-{% if form.recetamedica.errors %}
-  <div class="text-danger">
-    {{ form.recetamedica.errors }}
   </div>
 {% endif %}
 </div>

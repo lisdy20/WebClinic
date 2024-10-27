@@ -12,5 +12,5 @@ class ServicioForm(forms.GenericForm):
 class CitaForm(forms.GenericForm):
     class Meta:
         model = Cita
-        fields = ['fecha', 'paciente', 'numaut', 'numserie', 'dte', 'estadocita', 'perfil', 'recetamedica']
+        fields = ['fecha', 'paciente','numaut','numserie', 'dte', 'facturado', 'estado', 'estadocita','totalpago', 'totalpagado','perfil','recetamedica']
         

@@ -1,6 +1,7 @@
 from django.views.generic import TemplateView
 from django.core.paginator import Paginator
 from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 
@@ -23,6 +24,7 @@ class GenericTemplateView(TemplateView):
         return data
 
 class GenericViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
         # Enviamos el ID del registro creado como parte de la respuesta

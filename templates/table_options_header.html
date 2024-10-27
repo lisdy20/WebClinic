@@ -1,3 +1,5 @@
 <th scope="col">Ver</th>
-<th scope="col">Editar</th>
-<th scope="col">Eliminar</th>
+{% if user.is_superuser %}
+    <th scope="col">Editar</th>
+    <th scope="col">Eliminar</th>
+{% endif %}

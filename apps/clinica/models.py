@@ -74,16 +74,16 @@ class Cita(models.Model):
     ]
     fecha = models.DateTimeField(default=datetime.now(), db_column='fecha', verbose_name='Fecha de cita', blank=False, null=False)
     paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
-    numaut = models.CharField(max_length=80, db_column='numaut', verbose_name='Número de autorización', blank=True, null=True)
-    numserie = models.CharField(max_length=80, db_column='numserie', verbose_name='Número de serie', blank=True, null=True)
-    dte = models.CharField(max_length=80, db_column='dte', verbose_name='DTE', blank=True, null=True)
+    numaut = models.CharField(max_length=80, db_column='numaut', verbose_name='Número de autorización', blank=True, null=True,default=None)
+    numserie = models.CharField(max_length=80, db_column='numserie', verbose_name='Número de serie', blank=True, null=True,default=None)
+    dte = models.CharField(max_length=80, db_column='dte', verbose_name='DTE', blank=True, null=True,default=None)
     facturado = models.BooleanField(db_column='facturado', verbose_name='Facturado', default=False)
     estado = models.CharField(max_length=2, db_column='estado',verbose_name='Estado', blank=False, null=False,default=EN_ESPERA,choices=ESTADO_CHOICES)
-    estadocita = models.ForeignKey(EstadoCita, on_delete=models.CASCADE, db_column='estadocita_id', verbose_name='Estado de cita', blank=False, null=False)
+    estadocita = models.ForeignKey(EstadoCita, on_delete=models.CASCADE, db_column='estadocita_id', verbose_name='Estado de cita', blank=True, null=True,default=None)
     totalpago = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpago', verbose_name='Total pago')
     totalpagado = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpagado', verbose_name='Total pagado')
     perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, db_column='perfil_id', verbose_name='Perfil')
-    recetamedica = models.ForeignKey(RecetaMedica, on_delete=models.CASCADE, db_column='recetamedica_id', verbose_name='Receta médica',null=True,blank=True)
+    recetamedica = models.ForeignKey(RecetaMedica, on_delete=models.CASCADE, db_column='recetamedica_id', verbose_name='Receta médica',null=True,blank=True,default=None)
     activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
     class Meta:
@@ -95,12 +95,11 @@ class Cita(models.Model):
         return f'Cita #{self.id} hecha el {self.fecha} para {self.paciente}'
     
     def save(self,**kwargs):
-        
         self.facturado = True if self.numaut and self.numserie and self.dte else False
-        super().save(**kwargs)
+        return super().save(**kwargs)
     
     def pagado(self):
-        return self.totalpagado==self.totalpago
+        return self.totalpagado==self.totalpago and self.totalpago != 0
     
     def diferencia_pago(self):
         return self.totalpago-self.totalpagado
@@ -128,14 +127,22 @@ class DetalleCita(models.Model):
     
     def save(self,**kwargs):
         if self.descuento<=self.subtotal:
-            self.subtotal = self.servicio.costo - self.descuento
-            if self.cita.FINALIZADA or self.cita.CANCELADA or not self.activo:
+            if self.cita.FINALIZADA == self.cita.estado or self.cita.CANCELADA == self.cita.estado:
                 raise Exception('La cita debe estar en espera o en consulta.')
+            if not self.activo:
+                raise Exception('El registro ya está eliminado no puede agregar más detalles.')
+            self.subtotal = self.servicio.costo - self.descuento
+            cita = self.cita
+            cita.totalpago+=self.subtotal
+            cita.save()
             return super().save(**kwargs)
         else:
             raise Exception('El descuento no puede ser mayor al costo.')
         
     def detele(self,**kwargs):
+        cita = self.cita
+        cita.totalpago-=self.subtotal
+        cita.save() 
         self.activo = False
         self.save()
     
