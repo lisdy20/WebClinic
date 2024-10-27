@@ -82,28 +82,6 @@
 {% endif %}
 </div>
 
-<!-- Campo: Total pago -->
-<div class="mb-3">
-<label for="{{ form.totalpago.id_for_label }}" class="form-label">{{ form.totalpago.label }}</label>
-{{ form.totalpago }}
-{% if form.totalpago.errors %}
-  <div class="text-danger">
-    {{ form.totalpago.errors }}
-  </div>
-{% endif %}
-</div>
-
-<!-- Campo: Total pagado -->
-<div class="mb-3">
-<label for="{{ form.totalpagado.id_for_label }}" class="form-label">{{ form.totalpagado.label }}</label>
-{{ form.totalpagado }}
-{% if form.totalpagado.errors %}
-  <div class="text-danger">
-    {{ form.totalpagado.errors }}
-  </div>
-{% endif %}
-</div>
-
 <!-- Campo: Perfil -->
 <div class="mb-3">
 <label for="{{ form.perfil.id_for_label }}" class="form-label">{{ form.perfil.label }}</label>
