@@ -94,6 +94,11 @@ class Cita(models.Model):
     def __str__(self) -> str:
         return f'Cita #{self.id} hecha el {self.fecha} para {self.paciente}'
     
+    def save(self,**kwargs):
+        
+        self.facturado = True if self.numaut and self.numserie and self.dte else False
+        super().save(**kwargs)
+    
     def pagado(self):
         return self.totalpagado==self.totalpago
     
