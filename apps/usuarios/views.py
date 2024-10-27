@@ -64,5 +64,5 @@ class EmpleadoEditView(views.GenericTemplateView):
 #---------------------------------------------------------------- Views DRF    
 
 class PerfilViewSet(views.GenericViewSet):
-    queryset = models.Perfil.objects.all()
+    queryset = models.Perfil.objects.filter(activo=True)
     serializer_class = serializers.PerfilSerializer
