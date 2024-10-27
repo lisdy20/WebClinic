@@ -60,5 +60,5 @@ class PagoEditView(views.GenericTemplateView):
 # ---------------------------------------------------------------- Views DRF
 
 class ControlPagoViewSet(views.GenericViewSet):
-    queryset = models.ControlPago.objects.all()
+    queryset = models.ControlPago.objects.filter(activo=True)
     serializer_class = serializers.ControlPagoSerializer
