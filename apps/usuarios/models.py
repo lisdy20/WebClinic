@@ -35,7 +35,7 @@ class Perfil(AbstractUser):
     fechanac = models.DateField(db_column='fechanac', verbose_name='Fecha de nacimiento', blank=True, null=True)
     genero = models.CharField(max_length=1, choices=GENEROS_CHOICES, db_column='genero', verbose_name='Género', blank=True, null=True)
     telefono = models.CharField(max_length=15, db_column='telefono', verbose_name='Teléfono', blank=True, null=True)
-    activo = models.BooleanField(default=False, db_column='activo',verbose_name='Activo')
+    activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
     
     
     class Meta:

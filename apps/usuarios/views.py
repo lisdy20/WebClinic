@@ -20,6 +20,7 @@ class UsuariosListTemplateView(views.GenericTemplateView):
         data = self.get_paginator(request=request,model=models.Perfil)
         campos = admin.PerfilAdmin.list_display
         campos = utils.format_names(names=campos)
+        print(data)
         data['campos']=campos
         data['url']=url
         data['url_edit']=str(url_edit).replace('0/','')
