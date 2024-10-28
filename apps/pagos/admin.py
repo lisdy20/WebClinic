@@ -10,6 +10,6 @@ class TipoPagoAdmin(admin.ModelAdmin):
 
 @admin.register(ControlPago)
 class ControlPagoAdmin(admin.ModelAdmin):
-    list_display=['id','cantidadpago','cita', 'tipopago','descripcion','numref']
+    list_display=['pk','cantidadpago','cita', 'tipopago','descripcion','numref']
     search_fields=['descripcion','numref']
     list_filter=['activo']

@@ -7,11 +7,17 @@
         {% csrf_token %}
         
         {% block formcontent %}{% endblock formcontent %}
-        
-        <a onclick="actualizar()" class="btn btn-primary">Actualizar</a>
-        <a onclick="actualizar(1)" class="btn btn-primary">Actualizar y seguir editando</a>
-        <a onclick="regresar()" class="btn btn-outline-secondary">Volver</a>
-    </form>
+    </form>    
+    {% block extracontent %}{% endblock extracontent %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <a onclick="actualizar()" class="btn btn-primary">Actualizar</a>
+            <a onclick="actualizar(1)" class="btn btn-primary">Actualizar y seguir editando</a>
+            <a onclick="regresar()" class="btn btn-outline-secondary">Volver</a>
+        </div>
+    </div>
+    
     <input type="text" id="id" value="{{id}}" hidden>
     <input type="text" id="url" value="{{url}}" hidden>
     <input type="text" id="url_list" value="{{url_list}}" hidden>
@@ -21,4 +27,7 @@
 {% block script %}
 <script type="text/javascript" src="{% static 'webclinic/js/common/http.methods.js' %}"></script>
 <script type="text/javascript" src="{% static 'webclinic/js/common/redirect.js' %}"></script>
+
+{% block extrascript %}{% endblock extrascript %}
+    
 {% endblock script %}

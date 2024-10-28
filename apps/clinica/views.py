@@ -93,17 +93,29 @@ class CitaEditView(views.GenericTemplateView):
     template_name = 'editar_cita.html'
     
     def get(self, request, *args, **kwargs):
+        from apps.pagos.models import ControlPago
+        from apps.pagos.forms import ControlPagoForm
         # Obtener el producto por su 'pk'
         data={}
         entity = utils.model_or_none(model=models.Cita, pk=kwargs['pk'])
+        detalles = models.DetalleCita.objects.filter(cita=entity,activo=True)
+        pagos = ControlPago.objects.filter(cita=entity,activo=True)
         form = forms.CitaForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('citas-list',request=request)
+        url_api_pagos = reverse('pagos-list',request=request)
+        url_api_detalles = reverse('detalles-citas-list',request=request)
         url_list = reverse_lazy('lista-citas')
         data['id']=kwargs['pk']
         data['url'] = url
         data['url_list'] = url_list
         data['form']=form
         data['entity']=entity
+        data['detalles']=detalles
+        data['pagos']=pagos
+        data['formdetalle']=forms.DetalleCitaForm
+        data['formpago']=ControlPagoForm
+        data['url_api_detalles']=url_api_detalles
+        data['url_api_pagos']=url_api_pagos
         return render(request=request, template_name=self.template_name,context=data)
 
 # ---------------------------------------------------------------- DRF Views
@@ -114,3 +126,7 @@ class ServicioViewSet(views.GenericViewSet):
 class CitaViewSet(views.GenericViewSet):
     queryset = models.Cita.objects.filter(activo=True)
     serializer_class = serializers.CitaSerializer
+
+class DetalleCitaViewSet(views.GenericViewSet):
+    queryset = models.DetalleCita.objects.filter(activo=True)
+    serializer_class = serializers.DetalleCitaSerializer

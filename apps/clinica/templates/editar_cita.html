@@ -5,43 +5,234 @@
 {% block formtitle %}Editar Cita{% endblock formtitle %}
 
 {% block formcontent %}
-<div class="form-group">
-  <label for="id_fecha">Fecha de cita:</label>
-  {{ form.fecha }}
-</div>
 
-<div class="form-group">
-  <label for="id_paciente">Paciente:</label>
-  {{ form.paciente }}
-</div>
-
-<div class="form-group">
-  <label for="id_numaut">Número de autorización:</label>
-  {{ form.numaut }}
-</div>
-
-<div class="form-group">
-  <label for="id_numserie">Número de serie:</label>
-  {{ form.numserie }}
-</div>
-
-<div class="form-group">
-  <label for="id_dte">DTE:</label>
-  {{ form.dte }}
-</div>
-
-<div class="form-group">
-  <label for="id_estado">Estado:</label>
-  {{ form.estado }}
-</div>
-
-<div class="form-group">
-  <label for="id_perfil">Perfil:</label>
-  {{ form.perfil }}
-</div>
-
-<div class="form-group">
-  <label for="id_recetamedica">Receta médica:</label>
-  {{ form.recetamedica }}
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+          <p><strong>Cita ID:</strong> {{ id }}</p>
+      </div>
+      <div class="col-md-6">
+          <p><strong>Nombre del Paciente:</strong> {{form.paciente}}</p>
+          <p><strong>Fecha y hora de la Cita:</strong> {{form.fecha}}</p>
+      </div>
+      <div class="col-md-6">
+          <p><strong>Médico Asignado:</strong> {{form.perfil}}</p>
+          <p><strong>Estado de la Cita:</strong> {{form.estado}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Facturado:</strong> <input readonly disabled type="checkbox" name="facturado" {% if form.facturado.value %}checked{% endif %}></p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Pago pendiente:</strong> Q {{entity.pago_pendiente}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Pagado:</strong> <input readonly disabled type="checkbox" name="facturado" {% if entity.pagado %}checked{% endif %}></p></p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>DTE:</strong> {{form.dte}}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Número de autorización:</strong>{{form.numaut}}</p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Número de serie:</strong>{{form.numserie}}</p>
+      </div>
+      <div class="col-md-12">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detalleModal">
+          Agregar servicio
+        </button>
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#pagosModelToggle ">
+          Ver pagos
+        </button>
+      </div>
+  </div>
 </div>
 {% endblock formcontent %}
+
+
+{% block extracontent %}
+<div class="overflow-scroll p-2">
+  <!-- Detalles de Servicios de la Cita -->
+  <h4 class="mb-3">Servicios Proporcionados</h4>
+  <table class="table table-bordered border-secondary table-hover">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">Servicio</th>
+            <th scope="col">Descripción</th>
+            <th scope="col">Costo Unitario</th>
+            <th scope="col">Descuento</th>
+            <th scope="col">Subtotal</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+      {% for detalle in detalles %}
+        <tr>
+          <td>{{detalle.servicio.nombreservicio}}</td>
+          <td>{{detalle.servicio.descripcion}}</td>
+          <td>{{detalle.servicio.costo}}</td>
+          <td>{{detalle.descuento}}</td>
+          <td>{{detalle.subtotal}}</td>
+        </tr>  
+      {% endfor %}
+          
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="text-right">Total</th>
+            <td>Q {{form.totalpago.value}}</td>
+        </tr>
+    </tfoot>
+  </table>
+</div>
+<!-- MODAL AGREGAR DETALLE -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar servicio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formdetalle" action="" method="POST">
+          <input hidden type="number" name="cita" value="{{id}}" class="form-control" style="border:1px solid" required="" id="id_cita">
+          <br>
+          <label for="{{ formdetalle.servicio.id_for_label }}">Servicio:</label>
+          {{ formdetalle.servicio }}
+          <br>
+
+          <label for="{{ formdetalle.descuento.id_for_label }}">Descuento:</label>
+          {{ formdetalle.descuento }}
+          <br>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary"
+          data-bs-dismiss="modal">Cerrar</a>
+        <a onclick="agregar_detalle()" class="btn btn-primary">Guardar cambios</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL AGREGAR DETALLE -->
+<!-- MODAL LISTA PAGOS -->
+<div class="modal fade" id="pagosModelToggle" tabindex="-1" aria-labelledby="pagosModelToggle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Lista de pagos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="overflow-scroll p-2">
+          <!-- Detalles de Servicios de la Cita -->
+          <h4 class="mb-3">Servicios Proporcionados</h4>
+          <table class="table table-bordered border-secondary table-hover">
+            <thead>
+                <tr class="table-info">
+                    <th scope="col">Cantidad</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Tipo de pago</th>
+                    <th scope="col">Número de referencia</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+              {% for pago in pagos %}
+                <tr>
+                  <td>{{pago.cantidadpago}}</td>
+                  <td>{{pago.descripcion}}</td>
+                  <td>{{pago.tipopago.nombre}}</td>
+                  <td>{{pago.numref}}</td>
+                </tr>  
+              {% endfor %}
+                  
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary"
+          data-bs-dismiss="modal">Cerrar</a>
+        <a class="btn btn-primary" data-bs-target="#pagoModelToggle" data-bs-toggle="modal">Agregar pago</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL VER PAGOS -->
+<!-- MODAL PARA AGREGAR PAGO -->
+<div class="modal fade" id="pagoModelToggle" tabindex="-1" aria-labelledby="pagoModelToggle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar pago</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="POST" id="formpago">
+          <div class="mb-3">
+            <label for="{{ formpago.cantidadpago.id_for_label }}" class="form-label">{{ formpago.cantidadpago.label }}</label>
+            {{ formpago.cantidadpago }}
+            {% if formpago.cantidadpago.errors %}
+              <div class="text-danger">
+                {{ formpago.cantidadpago.errors }}
+              </div>
+            {% endif %}
+          </div>
+        
+          <!-- Campo: Descripción -->
+          <div class="mb-3">
+            <label for="{{ form.descripcion.id_for_label }}" class="form-label">{{ formpago.descripcion.label }}</label>
+            {{ formpago.descripcion }}
+            {% if formpago.descripcion.errors %}
+              <div class="text-danger">
+                {{ formpago.descripcion.errors }}
+              </div>
+            {% endif %}
+          </div>
+        
+          <!-- Campo: Tipo de Pago -->
+          <div class="mb-3">
+            <label for="{{ formpago.tipopago.id_for_label }}" class="form-label">{{ formpago.tipopago.label }}</label>
+            {{ formpago.tipopago }}
+            {% if form.tipopago.errors %}
+              <div class="text-danger">
+                {{ formpago.tipopago.errors }}
+              </div>
+            {% endif %}
+          </div>
+        
+          <!-- Campo: Número de Referencia -->
+          <div class="mb-3">
+            <label for="{{ formpago.numref.id_for_label }}" class="form-label">{{ formpago.numref.label }}</label>
+            {{ formpago.numref }}
+            {% if formpago.numref.errors %}
+              <div class="text-danger">
+                {{ formpago.numref.errors }}
+              </div>
+            {% endif %}
+          </div>
+        
+          <input type="number" name="cita" hidden value={{id}}>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary"
+          data-bs-dismiss="modal">Cerrar</a>
+          <a class="btn btn-primary" onclick="agregar_pago()">Guardar pago</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL AGREGAR PAGO -->
+<input type="text" id="url_api_pagos" hidden value="{{url_api_pagos}}">
+<input type="text" id="url_api_detalles" hidden value="{{url_api_detalles}}">
+{% endblock extracontent %}
+
+{% load static %}
+{% block extrascript %}
+<script type="text/javascript" src="{% static 'webclinic/js/clinica/cita.methods.js' %}"></script>
+{% endblock extrascript %}
+  
+  

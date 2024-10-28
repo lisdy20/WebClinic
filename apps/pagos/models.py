@@ -46,8 +46,7 @@ class ControlPago(models.Model):
         if self.activo == False:
             raise Exception('Una vez eliminado no se puede modificar.')
         
-        self.pagar(**kwargs)
-        super().save(**kwargs)
+        self.pagar()
     
     def delete(self,**kwargs):
         self.activo = False
@@ -55,7 +54,7 @@ class ControlPago(models.Model):
         self.descontar()
     
 
-    def pagar(self):
+    def pagar(self,**kwargs):
         # Excluye el pago actual si es una actualización para calcular el pago pendiente
         pago_actual = ControlPago.objects.filter(id=self.id).first()
         pago_anterior = pago_actual.cantidadpago if pago_actual else Decimal(0)
@@ -67,7 +66,7 @@ class ControlPago(models.Model):
             raise Exception("Pago excede el monto pendiente de la cita.")
 
         # Guardar y actualizar el total pagado en la cita
-        super().save()
+        super().save(**kwargs)
         self.cita.actualizar_total_pagado()
 
     def descontar(self):
