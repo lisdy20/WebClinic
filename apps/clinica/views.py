@@ -95,6 +95,7 @@ class CitaEditView(views.GenericTemplateView):
     def get(self, request, *args, **kwargs):
         from apps.pagos.models import ControlPago
         from apps.pagos.forms import ControlPagoForm
+        from apps.medicamentos.forms import RecetaMedicaForm,DetalleRecetaForm
         # Obtener el producto por su 'pk'
         data={}
         entity = utils.model_or_none(model=models.Cita, pk=kwargs['pk'])
@@ -104,6 +105,8 @@ class CitaEditView(views.GenericTemplateView):
         url = reverse('citas-list',request=request)
         url_api_pagos = reverse('pagos-list',request=request)
         url_api_detalles = reverse('detalles-citas-list',request=request)
+        url_api_detalles_receta = reverse('detalles-receta-list',request=request)
+        url_api_receta = reverse('receta-medica-list',request=request)
         url_list = reverse_lazy('lista-citas')
         data['id']=kwargs['pk']
         data['url'] = url
@@ -114,6 +117,10 @@ class CitaEditView(views.GenericTemplateView):
         data['pagos']=pagos
         data['formdetalle']=forms.DetalleCitaForm
         data['formpago']=ControlPagoForm
+        data['formreceta']=RecetaMedicaForm
+        data['formdetallereceta']=DetalleRecetaForm
+        data['url_api_detalles_receta']=url_api_detalles_receta
+        data['url_api_receta']=url_api_receta
         data['url_api_detalles']=url_api_detalles
         data['url_api_pagos']=url_api_pagos
         return render(request=request, template_name=self.template_name,context=data)

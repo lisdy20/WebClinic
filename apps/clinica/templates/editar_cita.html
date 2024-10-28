@@ -13,12 +13,12 @@
           <p><strong>Cita ID:</strong> {{ id }}</p>
       </div>
       <div class="col-md-6">
-          <p><strong>Nombre del Paciente:</strong> {{form.paciente}}</p>
-          <p><strong>Fecha y hora de la Cita:</strong> {{form.fecha}}</p>
+          <p><strong>Nombre del paciente:</strong> {{form.paciente}}</p>
+          <p><strong>Fecha y hora de la cita:</strong> {{form.fecha}}</p>
       </div>
       <div class="col-md-6">
-          <p><strong>Médico Asignado:</strong> {{form.perfil}}</p>
-          <p><strong>Estado de la Cita:</strong> {{form.estado}}</p>
+          <p><strong>Médico asignado:</strong> {{form.perfil}}</p>
+          <p><strong>Estado de la cita:</strong> {{form.estado}}</p>
       </div>
       <div class="col-md-4">
         <p><strong>Facturado:</strong> <input readonly disabled type="checkbox" name="facturado" {% if form.facturado.value %}checked{% endif %}></p>
@@ -42,9 +42,30 @@
         <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detalleModal">
           Agregar servicio
         </button>
-        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#pagosModelToggle ">
-          Ver pagos
-        </button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-info dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            Acciones
+          </button>
+          <ul class="dropdown-menu">
+            <li><a style="cursor: pointer;" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#pagosModelToggle ">
+              Ver pagos
+            </a></li>
+            
+            
+            {% if entity.recetamedica %}
+            <li><a style="cursor: pointer;" class="dropdown-item" href="">
+              Ver receta
+            </a></li>
+            {% else %}
+            <li><a style="cursor: pointer;" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#recetaModal ">
+              Agregar receta
+            </a></li>
+            {% endif %}
+              
+
+              
+          </ul>
+        </div>
       </div>
   </div>
 </div>
@@ -52,10 +73,11 @@
 
 
 {% block extracontent %}
+
 <div class="overflow-scroll p-2">
   <!-- Detalles de Servicios de la Cita -->
   <h4 class="mb-3">Servicios Proporcionados</h4>
-  <table class="table table-bordered border-secondary table-hover">
+  <table class="table table-bordered border-secondary table-hover" id="tabla">
     <thead>
         <tr class="table-info">
             <th scope="col">Servicio</th>
@@ -226,6 +248,49 @@
   </div>
 </div>
 <!-- FIN MODAL AGREGAR PAGO -->
+ <!-- MODAL RECETA MEDICA -->
+<div class="modal fade" id="recetaModal" tabindex="-1" aria-labelledby="recetaModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Receta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="" method="POST" id="formreceta">
+        <div class="modal-body">
+          <!-- Campo Fecha -->
+          <div class="mb-3">
+            <label for="{{ formreceta.fecha.id_for_label }}" class="form-label">Fecha de Receta</label>
+            {{ formreceta.fecha }}
+        </div>
+
+        <!-- Campo Doctor -->
+        <div class="mb-3">
+            <label for="{{ formreceta.doctor.id_for_label }}" class="form-label">Doctor</label>
+            {{ formreceta.doctor }}
+        </div>
+
+        <!-- Campo Observaciones -->
+        <div class="mb-3">
+            <label for="{{ formreceta.observaciones.id_for_label }}" class="form-label">Observaciones</label>
+            {{ formreceta.observaciones }}
+        </div>
+
+        
+        </div>
+        <div class="modal-footer">
+          <a class="btn btn-secondary"
+            data-bs-dismiss="modal">Cerrar</a>
+          <a onclick="agregar_receta()" class="btn btn-primary">Guardar cambios</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL RECETA MEDICA -->
+ <!-- MODAL PARA DETALL -->
+<input type="text" id="url_api_receta" hidden value="{{url_api_receta}}">
+<input type="text" id="url_api_detalles_receta" hidden value="{{url_api_detalles_receta}}">
 <input type="text" id="url_api_pagos" hidden value="{{url_api_pagos}}">
 <input type="text" id="url_api_detalles" hidden value="{{url_api_detalles}}">
 {% endblock extracontent %}

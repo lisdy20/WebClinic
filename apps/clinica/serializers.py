@@ -11,6 +11,7 @@ class CitaSerializer(serializers.ModelSerializer):
         model = Cita
         fields = '__all__'
 
+
 class DetalleCitaSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleCita

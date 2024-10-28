@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from decimal import Decimal
 from django.db.models import Sum
+from rest_framework.exceptions import APIException
 
 from apps.paciente.models import Paciente
 from apps.usuarios.models import Perfil
@@ -44,7 +45,7 @@ class Historial(models.Model):
     
     def save(self,**kwargs):
         if self.activo == False:
-            raise Exception('Una vez eliminado no se puede modificar.')
+            raise APIException('Una vez eliminado no se puede modificar.')
     
     def detele(self,**kwargs):
         self.activo = False
@@ -66,7 +67,7 @@ class Servicio(models.Model):
     
     def save(self,**kwargs):
         if self.activo == False:
-            raise Exception('Una vez eliminado no se puede modificar.')
+            raise APIException('Una vez eliminado no se puede modificar.')
         
     def detele(self,**kwargs):
         self.activo = False
@@ -84,7 +85,7 @@ class Cita(models.Model):
         (CANCELADA, 'Cancelada'),
     ]
     fecha = models.DateTimeField(default=datetime.now(), db_column='fecha', verbose_name='Fecha de cita', blank=False, null=False)
-    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=False, null=False)
+    paciente = models.ForeignKey(Paciente, on_delete=models.CASCADE, db_column='paciente_id', verbose_name='Paciente', blank=True, null=False)
     numaut = models.CharField(max_length=80, db_column='numaut', verbose_name='Número de autorización', blank=True, null=True,default=None)
     numserie = models.CharField(max_length=80, db_column='numserie', verbose_name='Número de serie', blank=True, null=True,default=None)
     dte = models.CharField(max_length=80, db_column='dte', verbose_name='DTE', blank=True, null=True,default=None)
@@ -93,7 +94,7 @@ class Cita(models.Model):
     estadocita = models.ForeignKey(EstadoCita, on_delete=models.CASCADE, db_column='estadocita_id', verbose_name='Estado de cita', blank=True, null=True,default=None)
     totalpago = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpago', verbose_name='Total pago')
     totalpagado = models.DecimalField(max_digits=10, decimal_places=2, default=0, db_column='totalpagado', verbose_name='Total pagado')
-    perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, db_column='perfil_id', verbose_name='Perfil')
+    perfil = models.ForeignKey(Perfil, on_delete=models.CASCADE, db_column='perfil_id', verbose_name='Perfil',blank=True)
     recetamedica = models.ForeignKey(RecetaMedica, on_delete=models.CASCADE, db_column='recetamedica_id', verbose_name='Receta médica',null=True,blank=True,default=None)
     activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
@@ -107,8 +108,8 @@ class Cita(models.Model):
     
     def save(self,**kwargs):
         self.facturado = True if self.numaut and self.numserie and self.dte else False
-        if self.activo == False:
-            raise Exception('Una vez eliminado no se puede modificar.')
+        if self.activo == 0:
+            raise APIException('Una vez eliminado no se puede modificar.')
         return super().save(**kwargs)
     
     def pagado(self):

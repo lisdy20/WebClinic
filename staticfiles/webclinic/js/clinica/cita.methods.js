@@ -113,3 +113,84 @@ function agregar_detalle(){
     });
   
   }
+
+  function agregar_receta(){
+    const url_api_receta = document.querySelector("#url_api_receta").value;
+    const url = document.querySelector("#url").value;
+
+    const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const form = document.querySelector("#formreceta");
+    const formData = new FormData(form);
+  
+    var data = {}
+    formData.forEach((value, key) => {
+      data[key] = value;
+      console.log(data[key]);
+    });
+  
+    Swal.fire({
+      title: "¿Estás seguro de continuar?",
+      text: "¡Una vez continuado no se podrá revertir!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, continuar",
+      cancelButtonText: "Cancelar"
+    }).then( async (result) => {
+      if (result.isConfirmed) {
+        console.log(data);
+        const response = await fetch(url_api_receta, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFTOKEN':token,
+          },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result.id);
+        if (response.ok) {
+          Swal.fire({
+            title: "¡Agregado!",
+            text: result.detail,
+            icon: "success"
+          }).then( async (accept) => {
+            if (accept.isConfirmed) {
+                const response2 = await fetch(`${url}${result.id}/`,{
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-CSRFTOKEN': token,
+                },
+                body: JSON.stringify({'recetamedica': result.id}),
+                });
+                const result2 = response2.json();
+                console.log(result2)
+                if(response.status !== 200){
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: `${result2.detail}`,
+                        });
+                }else{
+                    //location.reload();
+                }
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Error...",
+            text: `${result.detail}`,
+          });
+        }
+      }
+    });
+  
+  }
+
+function imprimir(){
+    tabla = document.querySelector("#tabla");
+    print(tabla)
+}

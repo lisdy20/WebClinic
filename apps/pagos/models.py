@@ -1,6 +1,7 @@
 from django.db import models
 from decimal import Decimal
 from apps.clinica.models import Cita
+from rest_framework.exceptions import APIException
 
 # Create your models here.
 
@@ -63,7 +64,7 @@ class ControlPago(models.Model):
         pago_pendiente = self.cita.pago_pendiente + pago_anterior
 
         if self.cantidadpago > pago_pendiente:
-            raise Exception("Pago excede el monto pendiente de la cita.")
+            raise APIException(detail="Pago excede el monto pendiente de la cita.",code=400)
 
         # Guardar y actualizar el total pagado en la cita
         super().save(**kwargs)
@@ -71,6 +72,6 @@ class ControlPago(models.Model):
 
     def descontar(self):
         if self.cita.totalpagado < self.cantidadpago:
-            raise Exception('No se puede descontar más dinero de la cita.')
+            raise APIException(detail='No se puede descontar más dinero de la cita.',code=400)
         self.cita.actualizar_total_pagado()
         

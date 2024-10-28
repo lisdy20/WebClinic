@@ -32,7 +32,7 @@ function agregar(opcion){
         },
         body: JSON.stringify(data)
       });
-      result = await response.json();
+      const result = await response.json();
       console.log(result.id);
       if (response.ok) {
         Swal.fire({
@@ -57,7 +57,7 @@ function agregar(opcion){
         Swal.fire({
           icon: "error",
           title: "Error...",
-          text: "¡Ha ocurrido un error!",
+          text: `${result.detail}`,
         });
       }
     }
@@ -98,7 +98,7 @@ function actualizar(opcion){
         },
         body: JSON.stringify(data)
       });
-      result = await response.json();
+      const result = await response.json();
       console.log(result.id);
       if (response.ok) {
         Swal.fire({
@@ -120,8 +120,8 @@ function actualizar(opcion){
       } else {
         Swal.fire({
           icon: "error",
-          title: "Oops...",
-          text: "¡Ha ocurrido un error!",
+          title: "Error",
+          text: `${result.detail}`,
         });
       }
     }
@@ -136,42 +136,39 @@ function eliminar(id=null){
   console.log(url);
   if(id!= null){
     Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      title: "¿Estás seguro de eliminar el registro?",
+      text: "Una vez continuado no se podrá revertir.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!"
-    }).then((result) => {
+    }).then( async (result) => {
       if (result.isConfirmed) {
-      fetch(url, {
+      const response = await fetch(url, {
         method: 'DELETE',
         headers: {
             'X-CSRFTOKEN':token,
         },
-      })
-        .then(response => {
-          if (response.ok) {
-            Swal.fire({
-              title: "Deleted!",
-              text: "Your file has been deleted.",
-              icon: "success"
-            }).then((accept) => {
-              if (accept.isConfirmed) {
-                location.reload();
-              }
-            });
-          } else {
-            Swal.fire({
-              icon: "error",
-              title: "Oops...",
-              text: "Something went wrong!",
-            });
-          }
-        }).catch(error => {
-        console.error('Hubo un problema con la solicitud:', error);
       });
+      const result = await response.json();
+      if (response.ok) {
+        Swal.fire({
+          title: "Eliminado!",
+          text: `${result.detail}`,
+          icon: "success"
+        }).then((accept) => {
+          if (accept.isConfirmed) {
+            location.reload();
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong!",
+        });
+      }
         
       }
     });

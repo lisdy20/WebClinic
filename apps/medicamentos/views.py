@@ -38,10 +38,53 @@ class MedicamentoCreateView(views.GenericTemplateView):
         data['url_list'] = url_list
         return render(request=request,template_name=self.template_name,context=data)
     
+class MedicamentoEditView(views.GenericTemplateView):
+    template_name = 'editar_medicamento.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Obtener el producto por su 'pk'
+        data={}
+        entity = utils.model_or_none(model=models.Medicamento, pk=kwargs['pk'])
+        form = forms.MedicamentoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        url = reverse('medicamentos-list',request=request)
+        url_list = reverse_lazy('lista-medicamentos')
+        data['id']=kwargs['pk']
+        data['url'] = url
+        data['url_list'] = url_list
+        data['form']=form
+        data['entity']=entity
+        return render(request=request, template_name=self.template_name,context=data)
+    
+class RecetaMedicaEditView(views.GenericTemplateView):
+    template_name = 'editar_receta.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Obtener el producto por su 'pk'
+        data={}
+        print(kwargs['cita'])
+        entity = utils.model_or_none(model=models.Medicamento, pk=kwargs['pk'])
+        form = forms.RecetaMedicaForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        url = reverse('receta-medica-list',request=request)
+        #url_list = reverse_lazy('lista-recetas')
+        data['id']=kwargs['pk']
+        data['url'] = url
+        #data['url_list'] = url_list
+        data['form']=form
+        data['entity']=entity
+        return render(request=request, template_name=self.template_name,context=data)
+    
 # ---------------------------------------------------------------- DRF Views
 
 class MedicamentoViewSet(views.GenericViewSet):
-    queryset = models.Medicamento.objects.filter(activo=False)
+    queryset = models.Medicamento.objects.filter(activo=True)
     serializer_class = serializers.MedicamentoSerializer
+
+class RecetaMedicaViewSet(views.GenericViewSet):
+    queryset = models.RecetaMedica.objects.filter(activo=True)
+    serializer_class = serializers.RecetaMedicaSerializer
+
+class DetalleRecetaViewSet(views.GenericViewSet):
+    queryset = models.DetalleRecetaMe.objects.filter(activo=True)
+    serializer_class = serializers.DetalleRecetaSerializer
 
 # ----------------------------------------------------------------
