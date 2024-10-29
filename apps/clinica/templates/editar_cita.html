@@ -49,11 +49,9 @@
           <ul class="dropdown-menu">
             <li><a style="cursor: pointer;" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#pagosModelToggle ">
               Ver pagos
-            </a></li>
-            
-            
+            </a></li>            
             {% if entity.recetamedica %}
-            <li><a style="cursor: pointer;" class="dropdown-item" href="">
+            <li><a style="cursor: pointer;" class="dropdown-item" blank="true" href="{% url 'editar-receta' entity.recetamedica.id %}">
               Ver receta
             </a></li>
             {% else %}
@@ -61,9 +59,6 @@
               Agregar receta
             </a></li>
             {% endif %}
-              
-
-              
           </ul>
         </div>
       </div>

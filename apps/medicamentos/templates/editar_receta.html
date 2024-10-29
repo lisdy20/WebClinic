@@ -1,0 +1,120 @@
+{% extends 'editar_registro.html' %}
+
+{% block title %}Editar Receta{% endblock title %}
+
+{% block formtitle %}Editar Receta{% endblock formtitle %}  
+
+{% block formcontent %}
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Receta:</strong> #{{ id }}</p>
+        <p><strong>Fecha y hora de la cita:</strong> {{form.fecha.value}}</p>  
+      </div>
+      <div class="col-md-6">
+          <p><strong>Nombre del doctor:</strong> {{form.doctor}}</p>
+          
+      </div>
+      <div class="col-md-12">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detalleModal">
+          Agregar Medicamento
+        </button>
+      </div>
+  </div>
+</div>
+{% endblock formcontent %}
+
+
+{% block extracontent %}
+
+<div class="overflow-scroll p-2">
+  <!-- Detalles de Servicios de la Cita -->
+  <h4 class="mb-3">Servicios Proporcionados</h4>
+  <table class="table table-bordered border-secondary table-hover" id="tabla">
+    <thead>
+        <tr class="table-info">
+            <th scope="col">cantidad</th>
+            <th scope="col">dosis</th>
+            <th scope="col">Medicamento</th>
+        </tr>
+
+    </thead>
+    <tbody>
+        
+    {% for detalle in detallesreceta %}
+        <tr>
+        <td>{{detalle.dosiscantidad}}</td>
+        <td>{{detalle.dosistiempo}}</td>
+        <td>{{detalle.medicamento}}</td>
+        </tr>  
+    {% endfor %}
+          
+    </tbody>
+  </table>
+</div>
+<!-- MODAL AGREGAR DETALLE -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar Medicamento</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formdetalle" id="formdetalle" action="" method="POST">
+            <input type="number" name="recetamedica" id="recetamedica_id" hidden value="{{id}}">
+            <!-- Dosis en cantidad -->
+            <div class="mb-3">
+                <label for="{{ formdetallereceta.dosiscantidad.id_for_label }}" class="form-label">{{ formdetallereceta.dosiscantidad.label }}</label>
+                {{ formdetallereceta.dosiscantidad }}
+                {% if formdetallereceta.dosiscantidad.errors %}
+                    <div class="text-danger">{{ formdetallereceta.dosiscantidad.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Dosis en tiempo -->
+            <div class="mb-3">
+                <label for="{{ formdetallereceta.dosistiempo.id_for_label }}" class="form-label">{{ formdetallereceta.dosistiempo.label }}</label>
+                {{ formdetallereceta.dosistiempo }}
+                {% if formdetallereceta.dosistiempo.errors %}
+                    <div class="text-danger">{{ formdetallereceta.dosistiempo.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- Receta médica -->
+            <div class="mb-3">
+                
+            </div>
+
+            <!-- Medicamento -->
+            <div class="mb-3">
+                <label for="{{ formdetallereceta.medicamento.id_for_label }}" class="form-label">{{ formdetallereceta.medicamento.label }}</label>
+                {{ formdetallereceta.medicamento }}
+                {% if formdetallereceta.medicamento.errors %}
+                    <div class="text-danger">{{ formdetallereceta.medicamento.errors }}</div>
+                {% endif %}
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary"
+          data-bs-dismiss="modal">Cerrar</a>
+        <a onclick="agregar_medicamento()" class="btn btn-primary">Guardar cambios</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL AGREGAR DETALLE -->
+
+ 
+<input type="text" id="url_api_detalles_receta" hidden value="{{url_api_detalles_receta}}">
+{% endblock extracontent %}
+
+{% load static %}
+{% block extrascript %}
+<script type="text/javascript" src="{% static 'webclinic/js/medicamentos/receta.methods.js' %}"></script>
+{% endblock extrascript %}
+  
+  

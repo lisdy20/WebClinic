@@ -32,7 +32,7 @@ class Medicamento(models.Model):
         db_table = 'medicamentos'
 
     def __str__(self) -> str:
-        return f'{self.medicamento}'
+        return f'{self.medicamento} {self.descripcion}'
     
     def detele(self,**kwargs):
         self.activo = False

@@ -60,25 +60,6 @@
             </div>
         </div>
     </div>
-    
-    {% if user.is_superuser %}
-        
-    <div class="accordion accordion-flush" id="menuEmpleados">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseEmpleados" aria-expanded="false" aria-controls="flush-collapseEmpleados">
-                    <i> <img src="{% static 'iconos/badge.svg' %}" alt=""></i>
-                    Empleados
-                </button>
-            </h2>
-            <div id="flush-collapseEmpleados" class="accordion-collapse collapse" data-bs-parent="#menuEmpleados">
-                <ul class="list-group list-group-flush acordion-body">
-                    <li class="list-group-item"><a href="{% url 'lista-empleados' %}">Lista de empleados</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    {% endif %}
     <div class="accordion accordion-flush" id="menuPagos">
         <div class="accordion-item">
             <h2 class="accordion-header">

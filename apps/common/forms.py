@@ -7,6 +7,17 @@ class GenericForm(forms.ModelForm):
         for field_name, field in self.fields.items():
              # Configura el widget para los campos DateTimeField
 
+            if isinstance(field, (forms.Textarea)):
+                # Configura el widget para que use el formato YYYY-MM-DD
+                field.widget = forms.Textarea(
+                    attrs={
+                        'rows':'4',
+                        'cols':'50',
+                        'class': 'form-control',
+                        'style': 'border:1px solid;resize:none !important;',
+                    },
+                )
+
             if isinstance(field, (forms.DateTimeField,forms.DateField)):
                 # Configura el widget para que use el formato YYYY-MM-DD
                 field.widget = forms.DateInput(

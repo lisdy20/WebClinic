@@ -117,6 +117,7 @@ function agregar_detalle(){
   function agregar_receta(){
     const url_api_receta = document.querySelector("#url_api_receta").value;
     const url = document.querySelector("#url").value;
+    const id = document.querySelector("#id").value;
 
     const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const form = document.querySelector("#formreceta");
@@ -155,27 +156,28 @@ function agregar_detalle(){
             title: "¡Agregado!",
             text: result.detail,
             icon: "success"
-          }).then( async (accept) => {
+          }).then( (accept) => {
             if (accept.isConfirmed) {
-                const response2 = await fetch(`${url}${result.id}/`,{
+                fetch(`${url}${id}/`,{
                 method: 'PUT',
                 headers: {
                   'Content-Type': 'application/json',
                   'X-CSRFTOKEN': token,
                 },
                 body: JSON.stringify({'recetamedica': result.id}),
-                });
+                }).then(response2 => {
                 const result2 = response2.json();
                 console.log(result2)
-                if(response.status !== 200){
+                if(!response2.ok){
                     Swal.fire({
                         icon: "error",
                         title: "Error",
                         text: `${result2.detail}`,
                         });
                 }else{
-                    //location.reload();
+                    location.reload();
                 }
+            });
             }
           });
         } else {

@@ -59,18 +59,27 @@ class RecetaMedicaEditView(views.GenericTemplateView):
     template_name = 'editar_receta.html'
     
     def get(self, request, *args, **kwargs):
+        from apps.clinica.models import Cita
         # Obtener el producto por su 'pk'
         data={}
-        print(kwargs['cita'])
-        entity = utils.model_or_none(model=models.Medicamento, pk=kwargs['pk'])
+        entity = utils.model_or_none(model=models.RecetaMedica, pk=kwargs['pk'])
+        cita = Cita.objects.filter(recetamedica=entity,activo=True).last()
+        medicamentos = models.Medicamento.objects.filter(activo=True)
+        detallesreceta = models.DetalleRecetaMe.objects.filter(recetamedica=entity,activo=True)
+        formdetallereceta = forms.DetalleRecetaForm
+        url_list = reverse_lazy('editar-cita',kwargs={'pk':cita.pk})
         form = forms.RecetaMedicaForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('receta-medica-list',request=request)
-        #url_list = reverse_lazy('lista-recetas')
+        url_api_detalles_receta = reverse('detalles-receta-list',request=request)
         data['id']=kwargs['pk']
         data['url'] = url
-        #data['url_list'] = url_list
+        data['url_list'] = url_list
+        data['url_api_detalles_receta'] = url_api_detalles_receta
         data['form']=form
+        data['formdetallereceta']=formdetallereceta
         data['entity']=entity
+        data['detallesreceta']=detallesreceta
+        data['medicamentos']=medicamentos
         return render(request=request, template_name=self.template_name,context=data)
     
 # ---------------------------------------------------------------- DRF Views

@@ -142,7 +142,8 @@ function eliminar(id=null){
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "¡Si, eliminar registro!",
+      cancelButtonText: "Cancelar"
     }).then( async (result) => {
       if (result.isConfirmed) {
       const response = await fetch(url, {
