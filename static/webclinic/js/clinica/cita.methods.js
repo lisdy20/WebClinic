@@ -114,83 +114,168 @@ function agregar_detalle(){
   
   }
 
-  function agregar_receta(){
-    const url_api_receta = document.querySelector("#url_api_receta").value;
-    const url = document.querySelector("#url").value;
-    const id = document.querySelector("#id").value;
+function agregar_receta(){
+  const url_api_receta = document.querySelector("#url_api_receta").value;
+  const url = document.querySelector("#url").value;
+  const id = document.querySelector("#id").value;
 
-    const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-    const form = document.querySelector("#formreceta");
-    const formData = new FormData(form);
-  
-    var data = {}
-    formData.forEach((value, key) => {
-      data[key] = value;
-      console.log(data[key]);
-    });
-  
-    Swal.fire({
-      title: "¿Estás seguro de continuar?",
-      text: "¡Una vez continuado no se podrá revertir!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Sí, continuar",
-      cancelButtonText: "Cancelar"
-    }).then( async (result) => {
-      if (result.isConfirmed) {
-        console.log(data);
-        const response = await fetch(url_api_receta, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFTOKEN':token,
-          },
-          body: JSON.stringify(data)
+  const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+  const form = document.querySelector("#formreceta");
+  const formData = new FormData(form);
+
+  var data = {}
+  formData.forEach((value, key) => {
+    data[key] = value;
+    console.log(data[key]);
+  });
+
+  Swal.fire({
+    title: "¿Estás seguro de continuar?",
+    text: "¡Una vez continuado no se podrá revertir!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, continuar",
+    cancelButtonText: "Cancelar"
+  }).then( async (result) => {
+    if (result.isConfirmed) {
+      console.log(data);
+      const response = await fetch(url_api_receta, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFTOKEN':token,
+        },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      console.log(result.id);
+      if (response.ok) {
+        Swal.fire({
+          title: "¡Agregado!",
+          text: result.detail,
+          icon: "success"
+        }).then( (accept) => {
+          if (accept.isConfirmed) {
+              fetch(`${url}${id}/`,{
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': token,
+              },
+              body: JSON.stringify({'recetamedica': result.id}),
+              }).then(response2 => {
+              const result2 = response2.json();
+              console.log(result2)
+              if(!response2.ok){
+                  Swal.fire({
+                      icon: "error",
+                      title: "Error",
+                      text: `${result2.detail}`,
+                      });
+              }else{
+                  location.reload();
+              }
+          });
+          }
         });
-        const result = await response.json();
-        console.log(result.id);
-        if (response.ok) {
-          Swal.fire({
-            title: "¡Agregado!",
-            text: result.detail,
-            icon: "success"
-          }).then( (accept) => {
-            if (accept.isConfirmed) {
-                fetch(`${url}${id}/`,{
-                method: 'PUT',
-                headers: {
-                  'Content-Type': 'application/json',
-                  'X-CSRFTOKEN': token,
-                },
-                body: JSON.stringify({'recetamedica': result.id}),
-                }).then(response2 => {
-                const result2 = response2.json();
-                console.log(result2)
-                if(!response2.ok){
-                    Swal.fire({
-                        icon: "error",
-                        title: "Error",
-                        text: `${result2.detail}`,
-                        });
-                }else{
-                    location.reload();
-                }
-            });
-            }
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: `${result.detail}`,
-          });
-        }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error...",
+          text: `${result.detail}`,
+        });
       }
-    });
-  
-  }
+    }
+  });
+
+}
+
+function agregar_historial(id,cita,servicio){
+  const url_api_historiales = document.querySelector("#url_api_historiales").value;
+  const url_api_detalles = document.querySelector("#url_api_detalles").value;
+
+  const token = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+  const form = document.querySelector(`#formhistorial${id}`);
+  const formData = new FormData(form);
+
+  console.log(id);
+  console.log(cita);
+  console.log(servicio);
+
+  var data = {}
+  formData.forEach((value, key) => {
+    data[key] = value;
+    console.log(data[key]);
+  });
+
+  Swal.fire({
+    title: "¿Estás seguro de continuar?",
+    text: "¡Una vez continuado no se podrá revertir!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, continuar",
+    cancelButtonText: "Cancelar"
+  }).then( async (result) => {
+    if (result.isConfirmed) {
+      console.log(data);
+      const response = await fetch(url_api_historiales, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRFTOKEN':token,
+        },
+        body: JSON.stringify(data)
+      });
+      const result = await response.json();
+      console.log(result.id);
+      if (response.ok) {
+        Swal.fire({
+          title: "¡Agregado!",
+          text: result.detail,
+          icon: "success"
+        }).then( (accept) => {
+          if (accept.isConfirmed) {
+              fetch(`${url_api_detalles}${id}/`,{
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFTOKEN': token,
+              },
+              body: JSON.stringify({
+                'historial': result.id,
+                'cita':cita,
+                'servicio':servicio
+              }),
+              }).then(response2 => {
+              const result2 = response2.json();
+              console.log(result2)
+              if(!response2.ok){
+                  Swal.fire({
+                      icon: "error",
+                      title: "Error",
+                      text: `${result2.detail}`,
+                      });
+              }else{
+                  location.reload();
+              }
+          });
+          }
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error...",
+          text: `${result.detail}`,
+        });
+      }
+    }
+  });
+
+}
 
 function imprimir(){
     tabla = document.querySelector("#tabla");

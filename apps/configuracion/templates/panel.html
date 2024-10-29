@@ -8,7 +8,7 @@
     <!-- Google Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
 {% endblock head %}
     
 
@@ -38,98 +38,64 @@
 <div class="container my-4">
     <div class="dashboard-header text-center">
         <h2>Panel de Control Médico</h2>
-        <p>Revisión de citas, pagos, pacientes &amp; exámenes</p>
+        <p>Revisión de citas</p>
     </div>
 
     <!-- Row 1: Statistics -->
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>1,200</h3>
-                    <p class="card-title">Total de Pacientes</p>
+                    <h3>{{total_pacientes}}</h3>
+                    <p class="card-title">Pacientes</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <div class="card-body">
+                    <h3>{{total_citas}}</h3>
+                    <p class="card-title">Citas</p>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>850</h3>
-                    <p class="card-title">Total de Citas</p>
+                    <h3>{{citas_pendientes}}</h3>
+                    <p class="card-title">Pendientes de Pago</p>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>300</h3>
-                    <p class="card-title">Pagos Pendientes</p>
+                    <h3>{{citas_pagadas}}</h3>
+                    <p class="card-title">Pagadas</p>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="card text-center">
                 <div class="card-body">
-                    <h3>900</h3>
-                    <p class="card-title">Pagos Completados</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>450</h3>
-                    <p class="card-title">Exámenes Internos</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="card text-center">
-                <div class="card-body">
-                    <h3>300</h3>
-                    <p class="card-title">Exámenes Externos</p>
+                    <h3>{{citas_sin_pagar}}</h3>
+                    <p class="card-title">Sin Pagar</p>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Row 2: Charts -->
-    <div class="row my-4">
-        <!-- Appointments by Month -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="CitasChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- Exams Distribution -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="ExamenesChart"></canvas>
-                </div>
-            </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Estado de Citas</h3>
+            <canvas id="estadoCitasChart"></canvas>
         </div>
     </div>
 
-    <!-- Row 3: Additional Charts -->
-    <div class="row my-4">
-        <!-- Appointment Status -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="EstadosChart"></canvas>
-                </div>
-            </div>
-        </div>
-        <!-- Payment Status -->
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <canvas id="PagosChart"></canvas>
-                </div>
-            </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h3>Citas por Mes</h3>
+            <canvas id="citasPorMesChart"></canvas>
         </div>
     </div>
 </div>
@@ -137,62 +103,57 @@
 
 {% block script %}
 <script>
-    // Appointments by Month
-    const ctx1 = document.getElementById('CitasChart').getContext('2d');
-    const CitasChart = new Chart(ctx1, {
-        type: 'line',
-        data: {
-            labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-            datasets: [{
-                label: 'Citas',
-                data: [80, 100, 95, 120, 85, 90, 110, 105, 120, 130, 140, 150],
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 2,
-                fill: true
-            }]
-        }
-    });
+    // Gráfico de Estado de Citas
+    const ctxEstado = document.getElementById('estadoCitasChart').getContext('2d');
+    const estadoCitasData = {
+        labels: [{% for estado in conteo_por_estado.keys %}'{{ estado }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+        datasets: [{
+            label: 'Cantidad de Citas por Estado',
+            data: [{% for count in conteo_por_estado.values %}{{ count }}{% if not forloop.last %}, {% endif %}{% endfor %}],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
 
-    // Exams Distribution (Internal vs External)
-    const ctx2 = document.getElementById('ExamenesChart').getContext('2d');
-    const ExamenesChart = new Chart(ctx2, {
-        type: 'doughnut',
-        data: {
-            labels: ['Exámenes Internos', 'Exámenes Externos'],
-            datasets: [{
-                data: [450, 300],
-                backgroundColor: ['#36A2EB', '#FF6384']
-            }]
-        }
-    });
-
-    // Appointment Status
-    const ctx3 = document.getElementById('EstadosChart').getContext('2d');
-    const EstadosChart = new Chart(ctx3, {
+    const estadoCitasChart = new Chart(ctxEstado, {
         type: 'bar',
-        data: {
-            labels: ['Pendientes', 'Completados', 'Cancelados'],
-            datasets: [{
-                label: 'Citas',
-                data: [60, 700, 90],
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56']
-            }]
+        data: estadoCitasData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
 
-    // Payment Status
-    const ctx4 = document.getElementById('PagosChart').getContext('2d');
-    const PagosChart = new Chart(ctx4, {
-        type: 'pie',
-        data: {
-            labels: ['Pagados', 'Sin Pagar', 'Pendientes'],
-            datasets: [{
-                data: [900, 150, 50],
-                backgroundColor: ['#4BC0C0', '#FF6384', '#FFCE56']
-            }]
+    // Gráfico de Citas por Mes
+    const ctxMes = document.getElementById('citasPorMesChart').getContext('2d');
+    const citasPorMesData = {
+        labels: {{ meses|safe }},
+        datasets: [{
+            label: 'Citas por Mes',
+            data: {{ conteo_mensual|safe }},
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const citasPorMesChart = new Chart(ctxMes, {
+        type: 'line',
+        data: citasPorMesData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
         }
     });
+
+    
 </script>
 {% endblock script %}
     

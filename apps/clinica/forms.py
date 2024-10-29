@@ -1,6 +1,7 @@
 from apps.common import forms
 from .models import (
     Servicio,
+    Historial,
     DetalleCita,
     Cita
     )
@@ -21,3 +22,21 @@ class DetalleCitaForm(forms.GenericForm):
         model = DetalleCita
         fields = ['servicio','descuento','cita']  # Include all fields
         
+class HistorialForm(forms.GenericForm):
+    class Meta:
+        model = Historial
+        fields = [
+            'motivo',
+            'historiaenfer',
+            'presionarterial',
+            'frecuenciacard',
+            'frecuenciaresp',
+            'temperatura',
+            'saturacion',
+            'glucosa',
+            'peso',
+            'altura',
+            'diagnostico',
+            'paciente',
+            'activo',
+        ]

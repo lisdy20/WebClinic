@@ -75,17 +75,110 @@
   <table class="table table-bordered border-secondary table-hover" id="tabla">
     <thead>
         <tr class="table-info">
-            <th scope="col">Servicio</th>
-            <th scope="col">Descripción</th>
-            <th scope="col">Costo Unitario</th>
-            <th scope="col">Descuento</th>
-            <th scope="col">Subtotal</th>
+          <th scope="col">Historial</th>
+          <th scope="col">Servicio</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Costo Unitario</th>
+          <th scope="col">Descuento</th>
+          <th scope="col">Subtotal</th>
         </tr>
     </thead>
     <tbody>
         
       {% for detalle in detalles %}
         <tr>
+          <td>
+            
+            {% if detalle.historial %}
+            {{detalle.historial}}
+            {% else %}
+            <a class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modal{{detalle.id}}">
+              Agregar historial
+            </a>
+
+            <!-- Modal para ver historial -->
+            <div class="modal fade" id="modal{{detalle.id}}" tabindex="-1" aria-labelledby="modal{{detalle.id}}Label" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">Historial</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="post" id="formhistorial{{detalle.id}}" action="">
+                      
+                      <div class="mb-3">
+                          <label for="id_motivo" class="form-label">Motivo de cita</label>
+                          {{ formhistorial.motivo }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_historiaenfer" class="form-label">Historia de enfermedad</label>
+                          {{ formhistorial.historiaenfer }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_presionarterial" class="form-label">Presión arterial</label>
+                          {{ formhistorial.presionarterial }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_frecuenciacard" class="form-label">Frecuencia cardíaca</label>
+                          {{ formhistorial.frecuenciacard }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_frecuenciaresp" class="form-label">Frecuencia respiratoria</label>
+                          {{ formhistorial.frecuenciaresp }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_temperatura" class="form-label">Temperatura</label>
+                          {{ formhistorial.temperatura }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_saturacion" class="form-label">Saturación</label>
+                          {{ formhistorial.saturacion }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_glucosa" class="form-label">Glucosa</label>
+                          {{ formhistorial.glucosa }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_peso" class="form-label">Peso</label>
+                          {{ formhistorial.peso }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_altura" class="form-label">Altura</label>
+                          {{ formhistorial.altura }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_diagnostico" class="form-label">Diagnóstico</label>
+                          {{ formhistorial.diagnostico }}
+                      </div>
+                  
+                      <div class="mb-3">
+                          <label for="id_paciente" class="form-label">Paciente</label>
+                          <input type="number" name="paciente" id="id_paciente" value="{{entity.paciente.id}}" hidden>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <a class="btn btn-secondary"
+                      data-bs-dismiss="modal">Cerrar</a>
+                      <a class="btn btn-primary" onclick="agregar_historial({{detalle.id}},{{entity.id}},{{detalle.servicio.id}})">Guardar pago</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+              
+          </td>
           <td>{{detalle.servicio.nombreservicio}}</td>
           <td>{{detalle.servicio.descripcion}}</td>
           <td>{{detalle.servicio.costo}}</td>
@@ -97,7 +190,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <th colspan="4" class="text-right">Total</th>
+            <th colspan="5" class="text-right">Total</th>
             <td>Q {{form.totalpago.value}}</td>
         </tr>
     </tfoot>
@@ -283,7 +376,8 @@
   </div>
 </div>
 <!-- FIN MODAL RECETA MEDICA -->
- <!-- MODAL PARA DETALL -->
+ <!-- URLS -->
+ <input type="text" id="url_api_historiales" hidden value="{{url_api_historiales}}">
 <input type="text" id="url_api_receta" hidden value="{{url_api_receta}}">
 <input type="text" id="url_api_detalles_receta" hidden value="{{url_api_detalles_receta}}">
 <input type="text" id="url_api_pagos" hidden value="{{url_api_pagos}}">

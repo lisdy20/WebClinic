@@ -46,6 +46,7 @@ class Historial(models.Model):
     def save(self,**kwargs):
         if self.activo == False:
             raise APIException('Una vez eliminado no se puede modificar.')
+        return super().save(**kwargs)
     
     def detele(self,**kwargs):
         self.activo = False

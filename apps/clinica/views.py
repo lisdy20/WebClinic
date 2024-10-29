@@ -104,6 +104,7 @@ class CitaEditView(views.GenericTemplateView):
         form = forms.CitaForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('citas-list',request=request)
         url_api_pagos = reverse('pagos-list',request=request)
+        url_api_historiales = reverse('historiales-list',request=request)
         url_api_detalles = reverse('detalles-citas-list',request=request)
         url_api_detalles_receta = reverse('detalles-receta-list',request=request)
         url_api_receta = reverse('receta-medica-list',request=request)
@@ -117,12 +118,14 @@ class CitaEditView(views.GenericTemplateView):
         data['pagos']=pagos
         data['formdetalle']=forms.DetalleCitaForm
         data['formpago']=ControlPagoForm
+        data['formhistorial']=forms.HistorialForm
         data['formreceta']=RecetaMedicaForm
         data['formdetallereceta']=DetalleRecetaForm
         data['url_api_detalles_receta']=url_api_detalles_receta
         data['url_api_receta']=url_api_receta
         data['url_api_detalles']=url_api_detalles
         data['url_api_pagos']=url_api_pagos
+        data['url_api_historiales']=url_api_historiales
         return render(request=request, template_name=self.template_name,context=data)
 
 # ---------------------------------------------------------------- DRF Views
@@ -137,3 +140,7 @@ class CitaViewSet(views.GenericViewSet):
 class DetalleCitaViewSet(views.GenericViewSet):
     queryset = models.DetalleCita.objects.filter(activo=True)
     serializer_class = serializers.DetalleCitaSerializer
+
+class HistorialViewSet(views.GenericViewSet):
+    queryset = models.Historial.objects.filter(activo=True)
+    serializer_class = serializers.HistorialSerializer

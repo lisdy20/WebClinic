@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Servicio,Cita,DetalleCita
+from .models import Servicio,Cita,DetalleCita,Historial
 
 class ServicioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -15,4 +15,9 @@ class CitaSerializer(serializers.ModelSerializer):
 class DetalleCitaSerializer(serializers.ModelSerializer):
     class Meta:
         model = DetalleCita
+        fields = '__all__'
+
+class HistorialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Historial
         fields = '__all__'
