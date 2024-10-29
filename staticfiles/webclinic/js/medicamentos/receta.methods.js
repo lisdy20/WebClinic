@@ -5,6 +5,8 @@ function agregar_medicamento(){
     const form = document.querySelector("#formdetalle");
     const formData = new FormData(form);
 
+    var data={}
+
     formData.forEach((value, key) => {
       data[key] = value;
     });
