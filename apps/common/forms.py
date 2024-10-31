@@ -18,7 +18,7 @@ class GenericForm(forms.ModelForm):
                     },
                 )
 
-            if isinstance(field, (forms.DateTimeField,forms.DateField)):
+            if isinstance(field, forms.DateField):
                 # Configura el widget para que use el formato YYYY-MM-DD
                 field.widget = forms.DateInput(
                     attrs={
@@ -27,6 +27,20 @@ class GenericForm(forms.ModelForm):
                         'style': 'border:1px solid',
                     },
                     format='%Y-%m-%d'
+                )
+                # Establece el valor inicial en el formato adecuado si existe
+                if field.initial:
+                    field.initial = field.initial.strftime('%Y-%m-%d %H:%M:%S')
+
+            if isinstance(field, forms.DateTimeField):
+                # Configura el widget para que use el formato YYYY-MM-DD
+                field.widget = forms.DateTimeInput(
+                    attrs={
+                        'type': 'datetime-local',  # Tipo de input para selección de fecha
+                        'class': 'form-control',
+                        'style': 'border:1px solid',
+                    },
+                    format='%Y-%m-%d %H:%M:%S'
                 )
                 # Establece el valor inicial en el formato adecuado si existe
                 if field.initial:
