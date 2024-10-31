@@ -56,9 +56,36 @@ class PacienteEditView(views.GenericTemplateView):
         data['entity']=entity
         return render(request=request, template_name=self.template_name,context=data)
     
+class AntecedenteEditView(views.GenericTemplateView):
+    template_name = 'editar_antecedente.html'
+    
+    def get(self, request, *args, **kwargs):
+        # Obtener el producto por su 'pk'
+        data={}
+        entity = utils.model_or_none(model=models.Paciente, pk=kwargs['pk'])
+        print(entity)
+        antecedentes = models.Antecedente.objects.filter(paciente=entity,activo=True)
+        form = forms.AntecedenteForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        url = reverse('antecedentes-list',request=request)
+        url_cita = reverse_lazy('editar-cita',kwargs={'pk':0})
+        url_list = ''
+        data['id']=kwargs['pk']
+        data['url'] = url
+        data['url_cita'] = str(url_cita).replace('0/','')
+        data['url_list'] = url_list
+        data['form']=form
+        data['antecedentes']=antecedentes
+        data['entity']=entity
+        return render(request=request, template_name=self.template_name,context=data)
+    
 
 # - - - - - - - - - - - - - - - - - - - - - - Views DRF
 
 class PacienteViewSet(views.GenericViewSet):
     queryset = models.Paciente.objects.filter(activo=True)
     serializer_class = serializers.PacienteSerializer
+
+
+class AntecedenteViewSet(views.GenericViewSet):
+    queryset = models.Antecedente.objects.filter(activo=True)
+    serializer_class = serializers.AntecedenteSerializer

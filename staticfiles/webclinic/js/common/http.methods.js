@@ -90,6 +90,7 @@ function actualizar(opcion){
     cancelButtonText: "Cancelar"
   }).then( async (result) => {
     if (result.isConfirmed) {
+      console.log(id);
       const response = await fetch(`${url}${id}/`, {
         method: 'PUT',
         headers: {
@@ -146,30 +147,31 @@ function eliminar(id=null){
       cancelButtonText: "Cancelar"
     }).then( async (result) => {
       if (result.isConfirmed) {
-      const response = await fetch(url, {
+      fetch(url, {
         method: 'DELETE',
         headers: {
             'X-CSRFTOKEN':token,
         },
-      });
-      const result = await response.json();
-      if (response.ok) {
-        Swal.fire({
-          title: "Eliminado!",
-          text: `${result.detail}`,
-          icon: "success"
-        }).then((accept) => {
-          if (accept.isConfirmed) {
-            location.reload();
-          }
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: "Something went wrong!",
-        });
-      }
+      })
+      .then((response)=>{
+        if (response.status === 200 || response.status === 204) {
+          Swal.fire({
+            title: "Eliminado!",
+            text: `¡Eliminado con éxito!`,
+            icon: "success"
+          }).then((accept) => {
+            if (accept.isConfirmed) {
+              location.reload();
+            }
+          });
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: result.detail,
+          });
+        }
+      })
         
       }
     });

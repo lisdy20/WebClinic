@@ -109,9 +109,12 @@ class CitaEditView(views.GenericTemplateView):
         url_api_detalles_receta = reverse('detalles-receta-list',request=request)
         url_api_receta = reverse('receta-medica-list',request=request)
         url_list = reverse_lazy('lista-citas')
+        url_antecedentes = reverse_lazy('editar-antecedente',kwargs={'pk':0})
+        url_antecedentes = str(url_antecedentes).replace('0/','')
         data['id']=kwargs['pk']
         data['url'] = url
         data['url_list'] = url_list
+        data['url_antecedentes'] = url_antecedentes
         data['form']=form
         data['entity']=entity
         data['detalles']=detalles

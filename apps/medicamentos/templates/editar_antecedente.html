@@ -1,0 +1,126 @@
+{% extends 'editar_registro2.html' %}
+
+{% block title %}Antecedentes{% endblock title %}
+  
+
+{% block formtitle %}Antecedentes{% endblock formtitle %}
+
+{% block formcontent %}
+
+<div class="card mb-4">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12">
+          <p><strong>Paciente ID:</strong> {{entity.id}}</p>
+      </div>
+      <div class="col-md-6">
+          <p><strong>Nombre del paciente:</strong> {{entity.nombre_completo}}</p>
+          <p><strong>Dirección:</strong> {{entity.direccion}}</p>
+      </div>
+      <div class="col-md-6">
+          <p><strong>DPI:</strong> {{entity.dpi}}</p>
+          <p><strong>Nit:</strong> {{entity.nit}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Fecha de nacimiento:</strong> {{entity.fechanac}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Género:</strong> {{entity.genero}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Teléfono:</strong> {% if entity.telefono %}{{entity.telefono}}{% endif %}</p></p>
+      </div>
+      
+      <div class="col-md-12">
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#detalleModal">
+          Agregar antecedente
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock formcontent %}
+
+
+{% block extracontent %}
+
+<div class="overflow-scroll p-2">
+  <!-- Detalles de Servicios de la Cita -->
+  <table class="table table-bordered border-secondary table-hover" id="tabla">
+    <thead>
+        <tr class="table-info">
+          <th scope="col">Tipo de Antecedente</th>
+          <th scope="col">Descripción</th>
+          <th scope="col">Paciente</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+      {% for antecedente in antecedentes %}
+        <tr>
+          <td>{{antecedente.tipoantecedente}}</td>
+          <td>{{antecedente.descripcion}}</td>
+          <td>{{antecedente.paciente}}</td>
+        </tr>  
+      {% endfor %}
+          
+    </tbody>
+  </table>
+</div>
+<!-- MODAL AGREGAR DETALLE -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Agregar servicio</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formantecedente" action="" method="POST">
+            <div class="mb-3">
+                <label for="{{ form.tipoantecedente.id_for_label }}" class="form-label">{{ form.tipoantecedente.label }}</label>
+                {{ form.tipoantecedente }}
+                {% if form.tipoantecedente.errors %}
+                    <div class="text-danger">
+                        {{ form.tipoantecedente.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            
+            <div class="mb-3">
+                <label for="{{ form.descripcion.id_for_label }}" class="form-label">{{ form.descripcion.label }}</label>
+                {{ form.descripcion }}
+                {% if form.descripcion.errors %}
+                    <div class="text-danger">
+                        {{ form.descripcion.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <input type="number" hidden name="paciente" value="{{entity.id}}">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-secondary"
+          data-bs-dismiss="modal">Cerrar</a>
+        <a onclick="agregar_antecedente()" class="btn btn-primary">Guardar cambios</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- FIN MODAL AGREGAR DETALLE -->
+
+ <!-- URLS -->
+<input type="text" id="url_api_historiales" hidden value="{{url_api_historiales}}">
+<input type="text" id="url_api_receta" hidden value="{{url_api_receta}}">
+<input type="text" id="url_cita" hidden value="{{url_cita}}">
+<input type="text" id="url_api_detalles_receta" hidden value="{{url_api_detalles_receta}}">
+<input type="text" id="url_api_pagos" hidden value="{{url_api_pagos}}">
+<input type="text" id="url_api_detalles" hidden value="{{url_api_detalles}}">
+{% endblock extracontent %}
+
+{% load static %}
+{% block extrascript %}
+<script type="text/javascript" src="{% static 'webclinic/js/paciente/paciente.methods.js' %}"></script>
+{% endblock extrascript %}
+  
+  

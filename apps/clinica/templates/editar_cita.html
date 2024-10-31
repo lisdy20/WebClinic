@@ -2,6 +2,23 @@
 
 {% block title %}Editar Cita{% endblock title %}
 
+
+{% block style %}
+  <style>
+    .paciente-hover{
+      cursor: pointer;
+      text-decoration: none;
+      color: blue;
+      transition: color 0.4s ease;
+    }
+
+    .paciente-hover:hover{
+      color: red;
+    }
+  </style>
+{% endblock style %}
+  
+
 {% block formtitle %}Editar Cita{% endblock formtitle %}
 
 {% block formcontent %}
@@ -13,7 +30,11 @@
           <p><strong>Cita ID:</strong> {{ id }}</p>
       </div>
       <div class="col-md-6">
-          <p><strong>Nombre del paciente:</strong> {{form.paciente}}</p>
+          <p><strong>Nombre del paciente:</strong>
+            <select onclick="lista_antecedentes({{entity.paciente.id}},{{entity.id}})" class="form-control paciente-hover" name="paciente" id="id_paciente">
+              <option selected value="{{entity.paciente.id}}">{{entity.paciente}}</option>
+            </select>
+          </p>
           <p><strong>Fecha y hora de la cita:</strong> {{form.fecha}}</p>
       </div>
       <div class="col-md-6">
@@ -62,6 +83,7 @@
           </ul>
         </div>
       </div>
+    </div>
   </div>
 </div>
 {% endblock formcontent %}
@@ -377,7 +399,8 @@
 </div>
 <!-- FIN MODAL RECETA MEDICA -->
  <!-- URLS -->
- <input type="text" id="url_api_historiales" hidden value="{{url_api_historiales}}">
+<input type="text" id="url_antecedentes" hidden value="{{url_antecedentes}}">
+<input type="text" id="url_api_historiales" hidden value="{{url_api_historiales}}">
 <input type="text" id="url_api_receta" hidden value="{{url_api_receta}}">
 <input type="text" id="url_api_detalles_receta" hidden value="{{url_api_detalles_receta}}">
 <input type="text" id="url_api_pagos" hidden value="{{url_api_pagos}}">
