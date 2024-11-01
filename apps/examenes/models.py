@@ -24,7 +24,7 @@ class ExLaboratorio(models.Model):
 
 class DocResLaboratorio(models.Model):
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre del documento', blank=False, null=False)
-    ubicacion = models.FileField(db_column='ubicacion', verbose_name='Ubicación', blank=False, null=False)
+    ubicacion = models.FileField(db_column='ubicacion',upload_to='docs_externos', verbose_name='Ubicación', blank=False, null=False)
     exlaboratorio = models.ForeignKey(ExLaboratorio, on_delete=models.CASCADE, db_column='exlaboratorio_id', verbose_name='Examen de laboratorio', blank=False, null=False)
     activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 
@@ -61,7 +61,7 @@ class ExInterno(models.Model):
 
 class DocResInterno(models.Model):
     nombre = models.CharField(max_length=30, db_column='nombre', verbose_name='Nombre del documento', blank=False, null=False)
-    ubicacion = models.FileField(db_column='ubicacion', verbose_name='Ubicación', blank=False, null=False)
+    ubicacion = models.FileField(db_column='ubicacion', upload_to='docs_internos', verbose_name='Ubicación', blank=False, null=False)
     exinterno = models.ForeignKey(ExInterno, on_delete=models.CASCADE, db_column='exinterno_id', verbose_name='Examen interno', blank=False, null=False)
     activo = models.BooleanField(default=True, db_column='activo',verbose_name='Activo')
 

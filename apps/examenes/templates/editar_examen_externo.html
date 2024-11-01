@@ -1,0 +1,24 @@
+{% extends 'editar_registro.html' %}
+
+{% block title %}Editar Examen Externo{% endblock title %}
+{% block formtitle %}Editar Examen Externo{% endblock formtitle %}
+
+{% block formcontent %}
+      <!-- Campo de Cita -->
+    <div class="form-group">
+        <label for="{{ form.cita.id_for_label }}">Cita:</label>
+        {{ form.cita }}
+    </div>
+
+    <!-- Campo de Motivo -->
+    <div class="form-group">
+        <label for="{{ form.motivo.id_for_label }}">Motivo del examen:</label>
+        {{ form.motivo }}
+    </div>
+
+    <!-- Campo de Nombre del Laboratorio -->
+    <div class="form-group">
+        <label for="{{ form.nombrelab.id_for_label }}">Nombre del laboratorio:</label>
+        {{ form.nombrelab }}
+    </div>
+{% endblock formcontent %}

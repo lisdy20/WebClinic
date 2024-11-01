@@ -18,10 +18,13 @@ class InicioTemplateView(TemplateView):
     def get(self, request):
         data={}
         inicio=True
-        servicios = modelsClinica.Servicio.objects.all()
+
+        ultimos_seis_servicios = modelsClinica.Servicio.objects.filter(activo=True).order_by('-id')[:6]
+        servicios = ultimos_seis_servicios
         hay_servicios=len(servicios)>0
 
-        empleados = modelsUsuario.Perfil.objects.all()
+        ultimos_seis_empleados = modelsUsuario.Perfil.objects.filter(activo=True).order_by('-id')[:6]
+        empleados = ultimos_seis_empleados
         hay_empleados=len(empleados)>0
 
         data['hay_servicios'] = hay_servicios

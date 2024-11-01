@@ -1,13 +1,9 @@
-{% extends 'base_admin.html' %}
+{% extends 'agregar_registro.html' %}
 
 {% block title %}Agregar Examen Interno{% endblock title %}
+{% block formtitle %}Agregar Examen Interno{% endblock formtitle %}
 
-{% block content %}
-  <div class="container mt-5">
-    <h2>Agregar Examen Interno</h2>
-    <form method="post" novalidate>
-      {% csrf_token %}
-
+{% block formcontent %}
       <!-- Campo: Detalle de la Cita -->
       <div class="mb-3">
         <label for="{{ form.detallecita.id_for_label }}" class="form-label">{{ form.detallecita.label }}</label>
@@ -40,10 +36,4 @@
           </div>
         {% endif %}
       </div>
-
-      <!-- Botón de envío -->
-      <button type="submit" class="btn btn-primary">Guardar</button>
-      <a href="{% url 'lista-examenes-internos' %}" class="btn btn-outline-secondary">Volver a la lista</a>
-    </form>
-  </div>
-{% endblock %}
+{% endblock formcontent %}

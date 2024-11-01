@@ -137,13 +137,13 @@ function eliminar(id=null){
   console.log(url);
   if(id!= null){
     Swal.fire({
-      title: "¿Estás seguro de eliminar el registro?",
+      title: "¿Estás seguro para dar de baja el registro?",
       text: "Una vez continuado no se podrá revertir.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
       cancelButtonColor: "#d33",
-      confirmButtonText: "¡Si, eliminar registro!",
+      confirmButtonText: "¡Si, dar de baja el registro!",
       cancelButtonText: "Cancelar"
     }).then( async (result) => {
       if (result.isConfirmed) {
@@ -156,8 +156,8 @@ function eliminar(id=null){
       .then((response)=>{
         if (response.status === 200 || response.status === 204) {
           Swal.fire({
-            title: "Eliminado!",
-            text: `¡Eliminado con éxito!`,
+            title: "Dado de baja",
+            text: `¡Dado de baja con éxito!`,
             icon: "success"
           }).then((accept) => {
             if (accept.isConfirmed) {

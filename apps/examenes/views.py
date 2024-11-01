@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from apps.common import utils,views
 from rest_framework.reverse import reverse
+from rest_framework.parsers import MultiPartParser, FormParser
 from . import models,admin,forms,serializers
 
 # Create your views here.
@@ -62,12 +63,16 @@ class ExamenInternoEditView(views.GenericTemplateView):
         data={}
         entity = utils.model_or_none(model=models.ExInterno, pk=kwargs['pk'])
         form = forms.ExamenInternoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        formdocumento = forms.DocResInternoForm
         url = reverse('examenes-internos-list',request=request)
+        url_api_documento = reverse('documentos-internos-list',request=request)
         url_list = reverse_lazy('lista-examenes-internos')
         data['id']=kwargs['pk']
         data['url'] = url
+        data['url_api_documento'] = url_api_documento
         data['url_list'] = url_list
         data['form']=form
+        data['formdocumento']=formdocumento
         data['entity']=entity
         return render(request=request, template_name=self.template_name,context=data)
     
@@ -78,7 +83,7 @@ class ExamenExternoCreateView(views.GenericTemplateView):
     def get(self, request, *args, **kwargs):
         data={}
         
-        data['form']=forms.ExamenExternoForm
+        data['form']=forms.ExLaboratorioForm
         url = reverse('examenes-externos-list',request=request)
         url_list = reverse_lazy('lista-examenes-externos')
         url_edit = reverse_lazy('editar-examen-externo',kwargs={'pk':0})
@@ -88,13 +93,13 @@ class ExamenExternoCreateView(views.GenericTemplateView):
         return render(request=request,template_name=self.template_name,context=data)
     
 class ExamenExternoEditView(views.GenericTemplateView):
-    template_name = 'editar_examen_interno.html'
+    template_name = 'editar_examen_externo.html'
     
     def get(self, request, *args, **kwargs):
         # Obtener el producto por su 'pk'
         data={}
-        entity = utils.model_or_none(model=models.ExInterno, pk=kwargs['pk'])
-        form = forms.ExamenExternoForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
+        entity = utils.model_or_none(model=models.ExLaboratorio, pk=kwargs['pk'])
+        form = forms.ExLaboratorioForm(instance=entity)  # Pasa la instancia del modelo existente al formulario
         url = reverse('examenes-externos-list',request=request)
         url_list = reverse_lazy('lista-examenes-externos')
         data['id']=kwargs['pk']
@@ -108,6 +113,10 @@ class ExamenExternoEditView(views.GenericTemplateView):
 class ExamenInternoViewSet(views.GenericViewSet):
     queryset = models.ExInterno.objects.filter(activo=True)
     serializer_class = serializers.ExamenInternoSerializer
+
+class DocInternoViewSet(views.GenericViewSet):
+    queryset = models.DocResInterno.objects.filter(activo=True)
+    serializer_class = serializers.DocInternoSerializer
 
 class ExamenExternoViewSet(views.GenericViewSet):
     queryset = models.ExInterno.objects.filter(activo=True)
