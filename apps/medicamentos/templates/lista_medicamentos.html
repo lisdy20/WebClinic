@@ -6,7 +6,7 @@
 {% block tablecontent %}
             <tr>
                 <td>{{entity.medicamento}}</td>
-                <td>{{entity.descripcion}}</td>
+                <td>{% if entity.descripcion %}{{entity.descripcion}}{% endif %}</td>
                 {% include 'table_options.html' %}
             </tr>
 {% endblock tablecontent %}

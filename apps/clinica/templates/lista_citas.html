@@ -7,15 +7,15 @@
   <tr>
       <td>{{entity.fecha}}</td>
       <td>{{entity.paciente.nombre_completo}}</td>
-      <td>{{entity.numaut}}</td>
-      <td>{{entity.numserie}}</td>
-      <td>{{entity.dte}}</td>
-      <td>{{entity.facturado}}</td>
+      <td>{% if entity.numaut %}{{entity.numaut}}{% endif %}</td>
+      <td>{% if entity.numserie %}{{entity.numserie}}{% endif %}</td>
+      <td>{% if entity.dte %}{{entity.dte}}{% endif %}</td>
+      <td>{% if entity.facturado %}<div class="punto verde"></div>{% else %}<div class="punto rojo"></div>{% endif %}</td>
       <td>{{entity.estado}}</td>
       <td>{{entity.totalpago}}</td>
       <td>{{entity.pago_pendiente}}</td>
       <td>{{entity.totalpagado}}</td>
-      <td>{{entity.pagado}}</td>
+      <td>{% if entity.pagado %}<div class="punto verde"></div>{% else %}<div class="punto rojo"></div>{% endif %}</td>
       {% include 'table_options.html' %}
   </tr>
 {% endblock tablecontent %}

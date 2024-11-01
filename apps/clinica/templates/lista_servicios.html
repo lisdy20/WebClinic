@@ -6,7 +6,7 @@
 {% block tablecontent %}  
   <tr>
       <td>{{entity.nombreservicio}}</td>
-      <td>{{entity.descripcion}}</td>
+      <td>{% if entity.descripcion %}{{entity.descripcion}}{% endif %}</td>
       <td>{{entity.costo}}</td>
       {% include 'table_options.html' %}
   </tr>

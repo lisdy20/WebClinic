@@ -6,8 +6,8 @@
 {% block tablecontent %}
     <tr>
         <td>{{ entity.cita }}</td>
-        <td>{{ entity.motivo }}</td>
-        <td>{{ entity.nombrelab }}</td>
+        <td>{% if entity.motivo %}{{ entity.motivo }}{% endif %}</td>
+        <td>{% if entity.nombrelab %}{{ entity.nombrelab }}{% endif %}</td>
         {% include 'table_options.html' %}
     </tr>
 {% endblock tablecontent %}

@@ -274,9 +274,9 @@
               {% for pago in pagos %}
                 <tr>
                   <td>{{pago.cantidadpago}}</td>
-                  <td>{{pago.descripcion}}</td>
+                  <td>{% if pago.descripcion %}{{pago.descripcion}}{% endif %}</td>
                   <td>{{pago.tipopago.nombre}}</td>
-                  <td>{{pago.numref}}</td>
+                  <td>{% if pago.numref %}{{pago.numref}}{% endif %}</td>
                 </tr>  
               {% endfor %}
                   

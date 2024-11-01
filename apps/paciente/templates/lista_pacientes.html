@@ -5,11 +5,11 @@
 
 {% block tablecontent %}
   <tr>
-      <td>{{entity.nombre}}</td>
-      <td>{{entity.apellido}}</td>
-      <td>{{entity.dpi}}</td>
-      <td>{{entity.nit}}</td>
-      <td>{{entity.direccion}}</td>
+      <td>{% if entity.nombre %}{{entity.nombre}}{% endif %}</td>
+      <td>{% if entity.apellido %}{{entity.apellido}}{% endif %}</td>
+      <td>{% if entity.dpi %}{{entity.dpi}}{% endif %}</td>
+      <td>{% if entity.nit %}{{entity.nit}}{% endif %}</td>
+      <td>{% if entity.direccion %}{{entity.direccion}}{% endif %}</td>
       {% include 'table_options.html' %}
   </tr>
 {% endblock tablecontent %}

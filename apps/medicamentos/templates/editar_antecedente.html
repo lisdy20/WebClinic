@@ -59,7 +59,7 @@
       {% for antecedente in antecedentes %}
         <tr>
           <td>{{antecedente.tipoantecedente}}</td>
-          <td>{{antecedente.descripcion}}</td>
+          <td>{% if antecedente.descripcion %}{{antecedente.descripcion}}{% endif %}</td>
           <td>{{antecedente.paciente}}</td>
         </tr>  
       {% endfor %}

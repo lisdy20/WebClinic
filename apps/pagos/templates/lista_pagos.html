@@ -9,8 +9,8 @@
         <td>{{ entity.cantidadpago }}</td>
         <td>{{ entity.cita }}</td>
         <td>{{ entity.tipopago }}</td>
-        <td>{{ entity.descripcion }}</td>
-        <td>{{ entity.numref }}</td>
+        <td>{% if entity.descripcion %}{{ entity.descripcion }}{% endif %}</td>
+        <td>{% if entity.numref %}{{ entity.numref }}{% endif %}</td>
         {% include 'table_options.html' %}
     </tr>
 {% endblock tablecontent %}
